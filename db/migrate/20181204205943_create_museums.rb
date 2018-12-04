@@ -4,7 +4,7 @@ class CreateMuseums < ActiveRecord::Migration[5.0]
       t.string :name
       t.string :type
       t.datetime :hours
-      t.string: :neighborhood
+      t.string :neighborhood
     end
   end
 end
