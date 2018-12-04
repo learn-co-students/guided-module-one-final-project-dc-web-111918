@@ -4,6 +4,8 @@ class CreateEvents < ActiveRecord::Migration[5.0]
       t.string :name
       t.datetime :date_time
       t.type :type
-      t.duration :duration
+      t.integer :duration
+      t.integer :id_museum
+      t.integer :id_neighborhood
   end
 end
