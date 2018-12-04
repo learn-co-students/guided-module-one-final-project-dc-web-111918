@@ -17,8 +17,8 @@ ActiveRecord::Schema.define(version: 20181204211749) do
     t.datetime "date_time"
     t.string   "type"
     t.integer  "duration"
-    t.integer  "id_museum"
-    t.integer  "id_neighborhood"
+    t.integer  "museum_id"
+    t.integer  "neighborhood_id"
   end
 
   create_table "museums", force: :cascade do |t|
