@@ -1,5 +1,5 @@
 require 'active record'
-class Activity < ActiveRecord::Base
+class Neighborhood < ActiveRecord::Base
 
 
 
