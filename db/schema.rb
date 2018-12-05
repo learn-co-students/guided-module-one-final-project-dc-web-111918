@@ -15,7 +15,7 @@ ActiveRecord::Schema.define(version: 20181204211749) do
   create_table "events", force: :cascade do |t|
     t.string   "name"
     t.datetime "date_time"
-    t.string   "type"
+    t.string   "eventtype"
     t.string   "description"
     t.integer  "duration"
     t.integer  "museum_id"
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20181204211749) do
 
   create_table "museums", force: :cascade do |t|
     t.string   "name"
-    t.string   "type"
+    t.string   "venuetype"
     t.datetime "hours"
     t.string   "neighborhood"
   end
