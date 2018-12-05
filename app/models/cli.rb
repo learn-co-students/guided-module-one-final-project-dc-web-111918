@@ -5,7 +5,7 @@ class Cli
     self.welcome
   end
 
-  def self.welcome
+  def welcome
       puts "Welcome to the DC Event Locator."
       puts "Please choose an area from the following option for event listings:"
       puts "1. Smithsonian East"
@@ -13,6 +13,23 @@ class Cli
       puts "3. Capitol Hill"
       puts "4. Chinatown"
       puts "5. Foggy Bottom"
+
+      binding.pry
+      area = gets.chomp
+      if area == 1
+
+      elsif area == 2
+
+      elsif area == 3
+
+      elsif area == 4
+
+      elsif area == 5
+
+      else
+        "That didn't work"
+        self.welcome
+      end
   end
 
   def call_welcome
@@ -31,7 +48,19 @@ class Cli
     end
 
     puts event_type
-    event = gets.chomp
+    area = gets.chomp
+    if area == 1
+
+    elsif area == 2
+
+    elsif area == 3
+
+    elsif area == 4
+
+    else
+      "That didn't work"
+      self.event_type
+    end
 
     self.how_much_time
   end
