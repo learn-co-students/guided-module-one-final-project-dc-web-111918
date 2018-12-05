@@ -14,55 +14,45 @@ class Cli
       puts "4. Chinatown"
       puts "5. Foggy Bottom"
 
-      binding.pry
       area = gets.chomp
       if area == 1
-
+        self.event_type
       elsif area == 2
-
+        self.event_type
       elsif area == 3
-
+        self.event_type
       elsif area == 4
-
+        self.event_type
       elsif area == 5
-
+        self.event_type
       else
         "That didn't work"
         self.welcome
       end
   end
 
-  def call_welcome
-    self.welcome
-    area = gets.chomp
-  end
+  def event_type
 
-    def event_type
+    puts "What kind of event are you interested in today?"
+    puts "Please select from:"
+    puts "1. Museum"
+    puts "2. Lecture"
+    puts "3. Concert"
+    puts "4. Special Exhibition"
 
-      puts "What kind of event are you interested in today?"
-      puts "Please select from:"
-      puts "1. Museum"
-      puts "2. Lecture"
-      puts "3. Concert"
-      puts "4. Special Exhibition"
-    end
-
-    puts event_type
-    area = gets.chomp
-    if area == 1
-
-    elsif area == 2
-
-    elsif area == 3
-
-    elsif area == 4
-
+    event_type = gets.chomp
+    if event_type == 1
+      self.how_much_time
+    elsif event_type == 2
+      self.how_much_time
+    elsif event_type == 3
+      self.how_much_time
+    elsif event_type == 4
+      self.how_much_time
     else
       "That didn't work"
       self.event_type
     end
-
-    self.how_much_time
   end
 
   def how_much_time
@@ -106,6 +96,7 @@ class Cli
       self.welcome
     elsif "Q"
       self.quit
+    end
   end
 
   def quit
