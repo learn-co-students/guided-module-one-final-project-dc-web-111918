@@ -23,18 +23,19 @@ class Cli
 
   def area_selection
     case self.area
-    when 1
+    when "1"
       puts "You've selected MALL NORTH"
-    when 2
+    when "2"
       puts "You've selected MALL SOUTH"
-    when 3
+    when "3"
       puts "You've selected CAPITOL HILL"
-    when 4
+    when "4"
       puts "You've selected CHINATOWN"
-    when 5
+    when "5"
       puts "You've selected FOGGY BOTTOM"
     else
-      puts "Invalid option"
+      puts "Invalid selection."
+      self.area_prompt
     end
   end
 
@@ -47,9 +48,24 @@ class Cli
     puts "3. Concert"
     puts "4. Special Exhibition"
       self.eventtype = gets.strip
-    # if self.eventtype == 1
-    #   puts "You've selected "
   end
+
+  def eventtype_selection
+    case self.eventtype
+    when "1"
+      puts "You've selected MUSEUM"
+    when "2"
+      puts "You've selected LECTURE"
+    when "3"
+      puts "You've selected CONCERT"
+    when "4"
+      puts "You've selected SPECIAL EXHIBITION"
+    else
+      puts "Invalid selection."
+      self.eventtype_prompt
+    end
+  end
+
 
 end
 
@@ -57,6 +73,8 @@ this_session = Cli.new
 this_session.welcome
 this_session.area_prompt
 this_session.area_selection
-# puts "session area is:  #{this_session.area}"
+# puts this_session.area
+# puts "session area is:  #{this_session.area}""
 this_session.eventtype_prompt
-puts "session prompt is : #{this_session.eventtype}"
+this_session.eventtype_selection
+# puts "session prompt is : #{this_session.eventtype}"

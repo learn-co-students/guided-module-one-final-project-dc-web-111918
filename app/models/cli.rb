@@ -15,7 +15,6 @@ class Cli
       puts "3. Capitol Hill"
       puts "4. Chinatown"
       puts "5. Foggy Bottom"
-
       area = gets.chomp
       if area == 1
         puts "You've selected Mall North"
