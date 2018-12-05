@@ -1,5 +1,5 @@
 class Cli
-  attr_accessor :museum, :events
+  attr_accessor :museum, :events, :area, :event_type, :whats_next
 
   def call
     self.welcome
@@ -59,11 +59,28 @@ class Cli
 
   def how_much_time
     puts "How much time do you have?"
-    puts "Please enter number of minutes (maximum 480)" #### this might get gnarly with minutes. break it down?
+    puts "Please select an amount of time." #### this might get gnarly with minutes. break it down?
 
-    spare_time = gets.strip
-    if (spare_time < 480) ####it's lazy but this will filter strings out as well
-      self.list_events
+    puts "1. 30 Minutes"
+    puts "2. 1 hour"
+    puts "3. 2 hours"
+    puts "4. More than 2 hours"
+
+    area = gets.chomp
+    if area == 1
+      self.event_type
+    elsif area == 2
+      self.event_type
+    elsif area == 3
+      self.event_type
+    elsif area == 4
+      self.event_type
+    elsif area == 5
+      self.event_type
+    else
+      "That didn't work"
+      self.welcome
+    end
     else
       puts "Sorry that doesn't work."
       self.how_much_time
@@ -74,15 +91,15 @@ class Cli
   def list_events
 
     puts "Please select the event you're interested in to see more details."
-  # 1.
-  # 2.
-  # 3.
+      # 1.
+      # 2.
+      # 3.
     self.event_details
   end
 
   def event_details
 
-    puts "EVENT DETAILS:"
+    puts "EVENT DETAILS: "
       ##PULL EVENT DETAILS FROM DB
 
     puts "Event Start: "
@@ -98,7 +115,6 @@ class Cli
       self.welcome
     elsif "Q"
       self.quit
-    end
   end
 
   def quit
