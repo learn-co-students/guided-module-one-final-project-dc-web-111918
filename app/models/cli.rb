@@ -62,6 +62,8 @@ class Cli
   def event_details
 
     puts "EVENT DETAILS:"
+      ##PULL EVENT DETAILS FROM DB
+
     puts "Event Start: "
   # EVENT DETAILS
   #
