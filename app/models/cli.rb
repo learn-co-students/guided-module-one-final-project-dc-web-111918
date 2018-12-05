@@ -9,6 +9,22 @@ class Cli
 
   def welcome
       puts "Welcome to the DC Event Locator."
+      #puts Event.all
+      this_session = Cli.new
+      #this_session.welcome
+      this_session.area_prompt
+      this_session.area_selection
+      # puts this_session.area
+      # puts "session area is:  #{this_session.area}""
+      this_session.eventtype_prompt
+      this_session.eventtype_selection
+      # puts "session prompt is : #{this_session.eventtype}"
+      this_session.availabletime_prompt
+      this_session.availabletime_selection
+      this_session.listevents_prompt
+      this_session.listevents_selection
+      this_session.eventdetails_prompt
+      this_session.eventdetails_selection
   end
 
   def area_prompt
@@ -77,7 +93,7 @@ class Cli
   end
 
   def availabletime_selection
-    case self.area
+    case self.availabletime
     when "1"
       puts "You've selected 30 minutes"
     when "2"
@@ -92,17 +108,26 @@ class Cli
     end
   end
 
+def events_picker
+  # d = DateTime.now
+  # d.strftime("%d/%m/%Y %H:%M")
+
+end
+
+
+
   def listevents_prompt
 
     puts "Please select the event you're interested in to see more details."
     puts "1. FILLER1" #grab from db
     puts "2. FILLER2" #grab from db
     puts "3. FILLER3" #grab from db
+    binding.pry
       self.selectedevent = STDIN.gets.strip
   end
 
   def listevents_selection
-    case self.area
+    case self.selectedevent
     when "1"
       puts "You've selected a" #{Event1}"
     when "2"
@@ -118,24 +143,25 @@ class Cli
 
   def eventdetails_prompt
 
+    puts  "Museum in the Blah Neighborhood"
+    puts "Event Name"
+    puts "Event start datetime"
+    puts "Event duration"
     puts "EVENT DETAILS: "
-      ##PULL EVENT DETAILS FROM DB
-
-    puts "Event Start: "
   # EVENT DETAILS
   #
     puts "1. Go back to list"
     puts "2. Search again"
     puts "3. Quit"
-    whats_next = STDIN.gets.strip
+    self.whatsnext = STDIN.gets.strip
   end
 
   def eventdetails_selection
-    case self.area #doesnt' work
+    case self.whatsnext #doesnt' work
     when "1"
       self.listevents_prompt
     when "2"
-      self.welcome #doesn't work
+      self.welcome
     when "3"
       self.quit
     else
@@ -150,21 +176,3 @@ class Cli
   end
 
 end
-
-
-
-this_session = Cli.new
-this_session.welcome
-this_session.area_prompt
-this_session.area_selection
-# puts this_session.area
-# puts "session area is:  #{this_session.area}""
-this_session.eventtype_prompt
-this_session.eventtype_selection
-# puts "session prompt is : #{this_session.eventtype}"
-this_session.availabletime_prompt
-this_session.availabletime_selection
-this_session.listevents_prompt
-this_session.listevents_selection
-this_session.eventdetails_prompt
-this_session.eventdetails_selection

@@ -23,10 +23,10 @@ ActiveRecord::Schema.define(version: 20181204211749) do
   end
 
   create_table "museums", force: :cascade do |t|
-    t.string   "name"
-    t.string   "venuetype"
-    t.datetime "hours"
-    t.string   "neighborhood"
+    t.string "name"
+    t.time   "hoursopen"
+    t.time   "hoursclose"
+    t.string "neighborhood"
   end
 
   create_table "neighborhoods", force: :cascade do |t|
