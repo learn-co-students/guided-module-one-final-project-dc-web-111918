@@ -1,5 +1,5 @@
 class Cli
-  attr_accessor :area, :eventtype, :time, :museum, :events
+  attr_accessor :area, :eventtype, :availabletime, :selectedevent,:time, :museum, :events
 
   @@all = []
 
@@ -34,8 +34,7 @@ class Cli
     when "5"
       puts "You've selected FOGGY BOTTOM"
     else
-      puts "Invalid selection."
-      self.area_prompt
+      puts "Invalid option"
     end
   end
 
@@ -48,6 +47,8 @@ class Cli
     puts "3. Concert"
     puts "4. Special Exhibition"
       self.eventtype = gets.strip
+    # if self.eventtype == 1
+    #   puts "You've selected "
   end
 
   def eventtype_selection
@@ -65,17 +66,57 @@ class Cli
       self.eventtype_prompt
     end
   end
-  
-  def list_events
 
-    puts "Please select the event you're interested in to see more details."
-      # 1.
-      # 2.
-      # 3.
-    self.event_details
+  def availabletime_prompt
+    puts "How much time do you have?" #### if we have time make it deal with hours/minutes. break it down?
+    puts "1. 30 Minutes"
+    puts "2. 1 hour"
+    puts "3. 2 hours"
+    puts "4. More than 2 hours"
+      self.availabletime = gets.strip
   end
 
-  def event_details
+  def availabletime_selection
+    case self.area
+    when "1"
+      puts "You've selected 30 minutes"
+    when "2"
+      puts "You've selected 1 hour"
+    when "3"
+      puts "You've selected 2 hours"
+    when "4"
+      puts "More than 2 hours"
+    else
+      puts "Invalid option"
+      self.availabletime_prompt
+    end
+  end
+
+  def listevents_prompt
+
+    puts "Please select the event you're interested in to see more details."
+    puts "1. FILLER1" #grab from db
+    puts "2. FILLER2" #grab from db
+    puts "3. FILLER3" #grab from db
+      self.selectedevent = gets.strip
+  end
+
+  def listevents_selection
+    case self.area
+    when "1"
+      puts "You've selected a" #{Event1}"
+    when "2"
+      puts "You've selected b" #{Event2}"
+    when "3"
+      puts "You've selected c" #{Event3}"
+    else
+      puts "Invalid option"
+      self.availabletime_prompt
+    end
+  end
+
+
+  def eventdetails_prompt
 
     puts "EVENT DETAILS: "
       ##PULL EVENT DETAILS FROM DB
@@ -87,12 +128,20 @@ class Cli
     puts "Press 'N' to search again"
     puts "Press 'Q' to quit"
     whats_next = gets.strip
-    if whats_next == "B"
-      self.list_events
-    elsif whats_next == "N"
-      self.welcome
-    elsif "Q"
+  end
+
+  def eventdetails_selection
+    case self.area #doesnt' work
+    when "B"
+      self.listevents_prompt
+    when "N"
+      self.welcome #doesn't work
+    when "Q"
       self.quit
+    else
+      puts "Invalid option"
+      self.availabletime_prompt
+    end
   end
 
   def quit
@@ -102,4 +151,20 @@ class Cli
 
 end
 
-def self.call
+
+
+this_session = Cli.new
+this_session.welcome
+this_session.area_prompt
+this_session.area_selection
+# puts this_session.area
+# puts "session area is:  #{this_session.area}""
+this_session.eventtype_prompt
+this_session.eventtype_selection
+# puts "session prompt is : #{this_session.eventtype}"
+this_session.availabletime_prompt
+this_session.availabletime_selection
+this_session.listevents_prompt
+this_session.listevents_selection
+this_session.eventdetails_prompt
+this_session.eventdetails_selection
