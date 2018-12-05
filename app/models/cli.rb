@@ -139,11 +139,11 @@ end
   end
 
   def nextoption_selection
-    case self.whatsnext #doesnt' work
+    case self.nextoption
     when "1"
       self.listevents_prompt
     when "2"
-      self.welcome
+      self.area_prompt
     when "3"
       self.quit
     else
@@ -162,15 +162,15 @@ end
     self.area_selection
     # puts self.area
     # puts "session area is:  #{self.area}""
-    self.eventtype_prompt
-    self.eventtype_selection
-    puts "session prompt is : #{self.eventtype}"
-    self.availabletime_prompt
-    self.availabletime_selection
-    self.listevents_prompt
-    self.listevents_selection
-    self.eventdetails_prompt
-    self.eventdetails_selection
+    # self.eventtype_prompt
+    # self.eventtype_selection
+    # puts "session prompt is : #{self.eventtype}"
+    # self.availabletime_prompt
+    # self.availabletime_selection
+    # self.listevents_prompt
+    # self.listevents_selection
+    # self.eventdetails_prompt
+    # self.eventdetails_selection
   end
 
 end
