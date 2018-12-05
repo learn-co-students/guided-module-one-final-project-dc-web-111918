@@ -52,21 +52,25 @@ class Cli
     puts "2. Lecture"
     puts "3. Concert"
     puts "4. Special Exhibition"
-      self.eventtype = STDIN.gets.strip
+      self.eventtype_input = STDIN.gets.strip
     # if self.eventtype == 1
     #   puts "You've selected "
   end
 
   def eventtype_selection
-    case self.eventtype
+    case self.eventtype_input
     when "1"
       puts "You've selected MUSEUM"
+      self.eventtype = "Museum"
     when "2"
       puts "You've selected LECTURE"
+      self.eventtype = "Lecture"
     when "3"
       puts "You've selected CONCERT"
+      self.eventtype = "Concert"
     when "4"
       puts "You've selected SPECIAL EXHIBITION"
+      self.eventtype = "Special Exhibition"
     else
       puts "Invalid selection."
       self.eventtype_prompt
@@ -86,12 +90,16 @@ class Cli
     case self.area
     when "1"
       puts "You've selected 30 minutes"
+      self.availabletime = 30
     when "2"
       puts "You've selected 1 hour"
+      self.availabletime = 60
     when "3"
       puts "You've selected 2 hours"
+      self.availabletime = 120
     when "4"
       puts "More than 2 hours"
+      self.availabletime = 121
     else
       puts "Invalid option"
       self.availabletime_prompt
