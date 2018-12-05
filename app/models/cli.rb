@@ -18,7 +18,7 @@ class Cli
     puts "3. Capitol Hill"
     puts "4. Chinatown"
     puts "5. Foggy Bottom"
-      self.area = gets.strip
+      self.area = STDIN.gets.strip
   end
 
   def area_selection
@@ -46,7 +46,7 @@ class Cli
     puts "2. Lecture"
     puts "3. Concert"
     puts "4. Special Exhibition"
-      self.eventtype = gets.strip
+      self.eventtype = STDIN.gets.strip
     # if self.eventtype == 1
     #   puts "You've selected "
   end
@@ -73,7 +73,7 @@ class Cli
     puts "2. 1 hour"
     puts "3. 2 hours"
     puts "4. More than 2 hours"
-      self.availabletime = gets.strip
+      self.availabletime = STDIN.gets.strip
   end
 
   def availabletime_selection
@@ -98,7 +98,7 @@ class Cli
     puts "1. FILLER1" #grab from db
     puts "2. FILLER2" #grab from db
     puts "3. FILLER3" #grab from db
-      self.selectedevent = gets.strip
+      self.selectedevent = STDIN.gets.strip
   end
 
   def listevents_selection
@@ -124,23 +124,23 @@ class Cli
     puts "Event Start: "
   # EVENT DETAILS
   #
-    puts "Press 'B' to go back to list"
-    puts "Press 'N' to search again"
-    puts "Press 'Q' to quit"
-    whats_next = gets.strip
+    puts "1. Go back to list"
+    puts "2. Search again"
+    puts "3. Quit"
+    whats_next = STDIN.gets.strip
   end
 
   def eventdetails_selection
     case self.area #doesnt' work
-    when "B"
+    when "1"
       self.listevents_prompt
-    when "N"
+    when "2"
       self.welcome #doesn't work
-    when "Q"
+    when "3"
       self.quit
     else
       puts "Invalid option"
-      self.availabletime_prompt
+      self.eventdetails_prompt
     end
   end
 
