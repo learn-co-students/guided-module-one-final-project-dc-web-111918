@@ -107,7 +107,6 @@ class Cli
   end
 
   def listevents_prompt
-
     puts "Please select the event you're interested in to see more details."
     puts "1. FILLER1" #grab from db
     puts "2. FILLER2" #grab from db
@@ -116,17 +115,7 @@ class Cli
   end
 
   def listevents_selection
-    case self.area
-    when "1"
-      puts "You've selected a" #{Event1}"
-    when "2"
-      puts "You've selected b" #{Event2}"
-    when "3"
-      puts "You've selected c" #{Event3}"
-    else
-      puts "Invalid option"
-      self.availabletime_prompt
-    end
+    self.event = self.even
   end
 
 
