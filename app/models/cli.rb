@@ -1,5 +1,6 @@
 class Cli
-  attr_accessor :area, :eventtype, :availabletime, :selectedevent,:time, :museum, :events
+  attr_accessor :area_input, :area, :eventtype_input, :eventtype, :availabletime_input,
+  :availabletime, :selectedevent,:time, :museum, :events, :event_list
 
   @@all = []
 
@@ -18,21 +19,26 @@ class Cli
     puts "3. Capitol Hill"
     puts "4. Chinatown"
     puts "5. Foggy Bottom"
-      self.area = gets.strip
+      self.area_input = STDIN.gets.strip
   end
 
   def area_selection
-    case self.area
+    case self.area_input
     when "1"
       puts "You've selected MALL NORTH"
+      self.area = Neighborhood.find_by(name: "Mall North")
     when "2"
       puts "You've selected MALL SOUTH"
+      self.area = Neighborhood.find_by(name: "Mall South")
     when "3"
       puts "You've selected CAPITOL HILL"
+      self.area = Neighborhood.find_by(name: "Capitol Hill")
     when "4"
       puts "You've selected CHINATOWN"
+      self.area = Neighborhood.find_by(name: "Chinatown")
     when "5"
       puts "You've selected FOGGY BOTTOM"
+      self.area = Neighborhood.find_by(name: "Foggy Bottom")
     else
       puts "Invalid option"
     end
@@ -46,7 +52,7 @@ class Cli
     puts "2. Lecture"
     puts "3. Concert"
     puts "4. Special Exhibition"
-      self.eventtype = gets.strip
+      self.eventtype = STDIN.gets.strip
     # if self.eventtype == 1
     #   puts "You've selected "
   end
@@ -73,7 +79,7 @@ class Cli
     puts "2. 1 hour"
     puts "3. 2 hours"
     puts "4. More than 2 hours"
-      self.availabletime = gets.strip
+      self.availabletime = STDIN.gets.strip
   end
 
   def availabletime_selection
@@ -98,7 +104,7 @@ class Cli
     puts "1. FILLER1" #grab from db
     puts "2. FILLER2" #grab from db
     puts "3. FILLER3" #grab from db
-      self.selectedevent = gets.strip
+      self.selectedevent = STDIN.gets.strip
   end
 
   def listevents_selection
@@ -127,7 +133,7 @@ class Cli
     puts "Press 'B' to go back to list"
     puts "Press 'N' to search again"
     puts "Press 'Q' to quit"
-    whats_next = gets.strip
+    whats_next = STDIN.gets.strip
   end
 
   def eventdetails_selection
@@ -149,22 +155,21 @@ class Cli
     exit
   end
 
+  def call
+    # self.welcome
+    self.area_prompt
+    self.area_selection
+# #     # puts self.area
+# #     # puts "session area is:  #{self.area}""
+# #     self.eventtype_prompt
+# #     self.eventtype_selection
+# #     puts "session prompt is : #{self.eventtype}"
+# #     self.availabletime_prompt
+# #     self.availabletime_selection
+#     # self.listevents_prompt
+#     # self.listevents_selection
+#     # self.eventdetails_prompt
+#     # self.eventdetails_selection
+  end
+
 end
-
-
-
-this_session = Cli.new
-this_session.welcome
-this_session.area_prompt
-this_session.area_selection
-# puts this_session.area
-# puts "session area is:  #{this_session.area}""
-this_session.eventtype_prompt
-this_session.eventtype_selection
-# puts "session prompt is : #{this_session.eventtype}"
-this_session.availabletime_prompt
-this_session.availabletime_selection
-this_session.listevents_prompt
-this_session.listevents_selection
-this_session.eventdetails_prompt
-this_session.eventdetails_selection
