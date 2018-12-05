@@ -188,7 +188,7 @@ end
   end
 
   def call
-    # self.welcome
+    self.welcome
     self.area_prompt
     self.area_selection
 # #     # puts self.area
