@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(version: 20181204211749) do
     t.string   "name"
     t.datetime "date_time"
     t.string   "type"
+    t.string   "description"
     t.integer  "duration"
     t.integer  "museum_id"
     t.integer  "neighborhood_id"
