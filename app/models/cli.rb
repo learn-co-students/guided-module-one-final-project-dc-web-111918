@@ -1,5 +1,6 @@
 class Cli
-  attr_accessor :area, :eventtype, :availabletime, :selectedevent,:time, :museum, :events
+  attr_accessor :area_input, :area, :eventtype_input, :eventtype, :availabletime_input,
+  :availabletime, :selectedevent,:time, :museum, :events, :event_list
 
   @@all = []
 
@@ -9,22 +10,22 @@ class Cli
 
   def welcome
       puts "Welcome to the DC Event Locator."
-      #puts Event.all
-      this_session = Cli.new
-      #this_session.welcome
-      this_session.area_prompt
-      this_session.area_selection
-      # puts this_session.area
-      # puts "session area is:  #{this_session.area}""
-      this_session.eventtype_prompt
-      this_session.eventtype_selection
-      # puts "session prompt is : #{this_session.eventtype}"
-      this_session.availabletime_prompt
-      this_session.availabletime_selection
-      this_session.listevents_prompt
-      this_session.listevents_selection
-      this_session.eventdetails_prompt
-      this_session.eventdetails_selection
+      # #puts Event.all
+      # this_session = Cli.new
+      # #this_session.welcome
+      # this_session.area_prompt
+      # this_session.area_selection
+      # # puts this_session.area
+      # # puts "session area is:  #{this_session.area}""
+      # this_session.eventtype_prompt
+      # this_session.eventtype_selection
+      # # puts "session prompt is : #{this_session.eventtype}"
+      # this_session.availabletime_prompt
+      # this_session.availabletime_selection
+      # this_session.listevents_prompt
+      # this_session.listevents_selection
+      # this_session.eventdetails_prompt
+      # this_session.eventdetails_selection
   end
 
   def area_prompt
@@ -34,21 +35,26 @@ class Cli
     puts "3. Capitol Hill"
     puts "4. Chinatown"
     puts "5. Foggy Bottom"
-      self.area = STDIN.gets.strip
+      self.area_input = STDIN.gets.strip
   end
 
   def area_selection
-    case self.area
+    case self.area_input
     when "1"
       puts "You've selected MALL NORTH"
+      self.area = Neighborhood.find_by(name: "Mall North")
     when "2"
       puts "You've selected MALL SOUTH"
+      self.area = Neighborhood.find_by(name: "Mall South")
     when "3"
       puts "You've selected CAPITOL HILL"
+      self.area = Neighborhood.find_by(name: "Capitol Hill")
     when "4"
       puts "You've selected CHINATOWN"
+      self.area = Neighborhood.find_by(name: "Chinatown")
     when "5"
       puts "You've selected FOGGY BOTTOM"
+      self.area = Neighborhood.find_by(name: "Foggy Bottom")
     else
       puts "Invalid option"
     end
@@ -62,21 +68,25 @@ class Cli
     puts "2. Lecture"
     puts "3. Concert"
     puts "4. Special Exhibition"
-      self.eventtype = STDIN.gets.strip
+      self.eventtype_input = STDIN.gets.strip
     # if self.eventtype == 1
     #   puts "You've selected "
   end
 
   def eventtype_selection
-    case self.eventtype
+    case self.eventtype_input
     when "1"
       puts "You've selected MUSEUM"
+      self.eventtype = "Museum"
     when "2"
       puts "You've selected LECTURE"
+      self.eventtype = "Lecture"
     when "3"
       puts "You've selected CONCERT"
+      self.eventtype = "Concert"
     when "4"
       puts "You've selected SPECIAL EXHIBITION"
+      self.eventtype = "Special Exhibition"
     else
       puts "Invalid selection."
       self.eventtype_prompt
@@ -96,12 +106,16 @@ class Cli
     case self.availabletime
     when "1"
       puts "You've selected 30 minutes"
+      self.availabletime = 30
     when "2"
       puts "You've selected 1 hour"
+      self.availabletime = 60
     when "3"
       puts "You've selected 2 hours"
+      self.availabletime = 120
     when "4"
       puts "More than 2 hours"
+      self.availabletime = 121
     else
       puts "Invalid option"
       self.availabletime_prompt
@@ -122,7 +136,6 @@ end
     puts "1. FILLER1" #grab from db
     puts "2. FILLER2" #grab from db
     puts "3. FILLER3" #grab from db
-    binding.pry
       self.selectedevent = STDIN.gets.strip
   end
 
@@ -173,6 +186,23 @@ end
   def quit
     puts "Thank you for using the DC Event Locator come again!"
     exit
+  end
+
+  def call
+    # self.welcome
+    self.area_prompt
+    self.area_selection
+# #     # puts self.area
+# #     # puts "session area is:  #{self.area}""
+# #     self.eventtype_prompt
+# #     self.eventtype_selection
+# #     puts "session prompt is : #{self.eventtype}"
+# #     self.availabletime_prompt
+# #     self.availabletime_selection
+#     # self.listevents_prompt
+#     # self.listevents_selection
+#     # self.eventdetails_prompt
+#     # self.eventdetails_selection
   end
 
 end
