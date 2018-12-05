@@ -1,3 +1,8 @@
+Museum.destroy_all
+Neighborhood.destroy_all
+Event.destroy_all
+
+
 ##neighborhoods
 
 smithsonianeast = Neighborhood.find_or_create_by(name: "Smithsonian East")
@@ -18,7 +23,7 @@ nationalholocaustmuseum = Museum.find_or_create_by(name: "National Holocaust Mus
 kennedycenter = Museum.find_or_create_by(name: "Kennedy Center")
 
 ##events
-event1 = Event.find_or_create_by(name:"Special Exhibition1", date_time: "2018-12-04 18:00:00", eventtype: "Special Exhibition", duration: "60", description: "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit")
+event1 = Event.find_or_create_by(museum: airandspacemuseum, neighborhood: smithsonianwest, name:"Special Exhibition1", date_time: "2018-12-04 18:00:00", eventtype: "Special Exhibition", duration: "60", description: "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit")
 event2 = Event.find_or_create_by(name:"Special Exhibition2", date_time: "2018-12-04 13:00:00", eventtype: "Special Exhibition", duration: "180", description: "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit")
 event3 = Event.find_or_create_by(name:"Special Exhibition3", date_time: "2018-12-04 18:00:00", eventtype: "Special Exhibition", duration: "60", description: "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit")
 event4 = Event.find_or_create_by(name:"Special Exhibition4", date_time: "2018-12-04 13:00:00", eventtype: "Special Exhibition", duration: "180", description: "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit")

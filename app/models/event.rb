@@ -1,4 +1,4 @@
 class Event < ActiveRecord::Base
-  belongs_to :museums
-  belongs_to :neighborhoods
+  belongs_to :museum
+  belongs_to :neighborhood
 end
