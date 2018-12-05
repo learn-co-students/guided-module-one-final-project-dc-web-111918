@@ -123,14 +123,15 @@ class Cli
   end
 
 def events_picker
-  # d = DateTime.now
-  # d.strftime("%d/%m/%Y %H:%M")
+  d = DateTime.now
+  d.strftime("%d/%m/%Y %H:%M")
 
 end
 
 
 
   def listevents_prompt
+    binding.pry
     puts "Please select the event you're interested in to see more details."
     puts "1. FILLER1" #grab from db
     puts "2. FILLER2" #grab from db
@@ -155,7 +156,7 @@ end
 
   def eventdetails_prompt
 
-    puts  "Museum in the Blah Neighborhood"
+    puts "Museum in the Blah Neighborhood"
     puts "Event Name"
     puts "Event start datetime"
     puts "Event duration"
@@ -191,17 +192,17 @@ end
     self.welcome
     self.area_prompt
     self.area_selection
-# #     # puts self.area
-# #     # puts "session area is:  #{self.area}""
-# #     self.eventtype_prompt
-# #     self.eventtype_selection
-# #     puts "session prompt is : #{self.eventtype}"
-# #     self.availabletime_prompt
-# #     self.availabletime_selection
-#     # self.listevents_prompt
-#     # self.listevents_selection
-#     # self.eventdetails_prompt
-#     # self.eventdetails_selection
+    # puts self.area
+    # puts "session area is:  #{self.area}""
+    self.eventtype_prompt
+    self.eventtype_selection
+    puts "session prompt is : #{self.eventtype}"
+    self.availabletime_prompt
+    self.availabletime_selection
+    self.listevents_prompt
+    self.listevents_selection
+    self.eventdetails_prompt
+    self.eventdetails_selection
   end
 
 end
