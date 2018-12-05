@@ -7,6 +7,8 @@ class Cli
 
   def welcome
       puts "Welcome to the DC Event Locator."
+
+  def
       puts "Please choose an area from the following option for event listings:"
       puts "1. Smithsonian East"
       puts "2. Smithsonian West"
@@ -16,17 +18,17 @@ class Cli
 
       area = gets.chomp
       if area == 1
-        self.event_type
+        puts "You've selected Mall North"
       elsif area == 2
-        self.event_type
+        puts "You've selected Mall South"
       elsif area == 3
-        self.event_type
+        puts "You've selected Capitol Hill"
       elsif area == 4
-        self.event_type
+        puts "You've selected Chinatown"
       elsif area == 5
-        self.event_type
+        puts "You've selected Foggy Bottom"
       else
-        "That didn't work"
+        Please select a valid option from the
         self.welcome
       end
   end
