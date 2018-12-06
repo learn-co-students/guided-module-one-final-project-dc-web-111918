@@ -10,6 +10,8 @@ class Cli
 
   def welcome
       puts "Welcome to the DC Event Locator."
+      puts ""
+      self.area_prompt
   end
 
   def area_prompt
@@ -19,7 +21,18 @@ class Cli
     puts "3. Capitol Hill"
     puts "4. Chinatown"
     puts "5. Foggy Bottom"
-      self.area_input = STDIN.gets.strip
+    self.area_input = STDIN.gets.strip
+    self.area_valid?
+  end
+
+  def area_valid?
+    self.area_prompt
+    if self.area_input.to_i.between?(1,5)
+      self.area_selection
+    else
+      puts "Invalid selection."
+      self.area_prompt
+    end
   end
 
   def area_selection
@@ -39,12 +52,9 @@ class Cli
     when "5"
       puts "You've selected FOGGY BOTTOM"
       self.area = Neighborhood.find_by(name: "Foggy Bottom")
-    else
-      puts "Invalid option"
-      self.area_prompt
     end
+      self.eventtype_prompt
   end
-
 
   def eventtype_prompt
     puts "What kind of event are you interested in today?"
@@ -53,9 +63,20 @@ class Cli
     puts "2. Lecture"
     puts "3. Concert"
     puts "4. Special Exhibition"
+    puts ""
+    puts "Enter 'B' to go back"
       self.eventtype_input = STDIN.gets.strip
-    # if self.eventtype == 1
-    #   puts "You've selected "
+      self.eventtype_valid?
+  end
+
+  def eventtype_valid?
+    if self.eventtype_input.to_i.between?(1,5)
+      self.eventtype_selection
+    elsif self.eventtype_input == "B"
+      self.area_prompt
+    else puts "Invalid selection."
+      self.eventtype_prompt
+    end
   end
 
   def eventtype_selection
@@ -72,10 +93,8 @@ class Cli
     when "4"
       puts "You've selected SPECIAL EXHIBITION"
       self.eventtype = "Special Exhibition"
-    else
-      puts "Invalid selection."
-      self.eventtype_prompt
     end
+    self.availabletime_prompt
   end
 
   def availabletime_prompt
@@ -84,7 +103,19 @@ class Cli
     puts "2. 1 hour"
     puts "3. 2 hours"
     puts "4. More than 2 hours"
+    puts ""
+    puts "Enter 'B' to go back"
       self.availabletime = STDIN.gets.strip
+  end
+
+  def availabletime_valid?
+    if self.availabletime_input.to_i.between?(1,5)
+      self.availabletime_selection
+    elsif self.availabletime_input == "B"
+      self.events_picker
+    else puts "Invalid selection."
+      self.availabletime_prompt
+    end
   end
 
   def availabletime_selection
@@ -101,50 +132,16 @@ class Cli
     when "4"
       puts "More than 2 hours"
       self.availabletime = 121
-    else
-      puts "Invalid option"
-      self.availabletime_prompt
+    when "B"
+      self.eventtype_prompt
     end
+    self.event_picker
   end
 
   def events_picker
     self.event_list = []
     d = DateTime.now
     #d = d.strftime("%d/%m/%Y %H:%M")  ###implement me when we start using dates and not just times
-<<<<<<< HEAD
-    date_now = d.strftime("%H:%M").tr(':','.date')
-    if Event.where(eventtype: eventtype, neighborhood_id: area.id) == []
-      "Sorry, there are no events matching your criteria, please search."
-      Cli.new.call
-    else
-      Event.where(eventtype: eventtype, neighborhood_id: area.id).select do |evnt|
-        date_now = date_now.split(':')[0].to_i + (date_now.split(':')[1].to_i * 1.0)/60 ###########time is hard to add. . .convert to integer
-        date_open = evnt.date_time.strftime("%H:%M").split(':')[0].to_i + (evnt.date_time.strftime("%H:%M").split(':')[1].to_i * 1.0)/60
-        date_close = (evnt.duration * 1.0)/60 + date_open
-        if eventtype == "Special Event" #make sure you can see 30 min
-          binding.pry
-          if (date_now > date_open) && (date_now < date_close - 0.5)
-            binding.pry
-            self.event_list << evnt
-            binding.pry
-          end
-        elsif eventtype == "Lecture" || "Concert"  #make sure you can see the entire thing and have time to get there
-          binding.pry  ###########craps out here
-          if (date_now > date_open - 0.5 ) && (date_now < date_close - 0.5)
-            binding.pry
-            self.event_list << evnt
-            binding.pry
-          end
-        elsif #eventtype == "Museum"  #just fit in the duration
-          binding.pry
-          if (date_now > date_open) && (date_now < date_close - 0.5)
-            binding.pry
-            self.event_list << evnt
-            binding.pry
-          end
-        else
-          binding.pry
-=======
     d = d.strftime("%H:%M").tr(':','.date')
     if Event.where(eventtype: eventtype, neighborhood_id: area.id) == []
       puts ""
@@ -166,25 +163,15 @@ class Cli
           if (date_now > date_open) && (date_now < date_close - 0.5) #eventtype == "Museum"  #just fit in the duration
             self.event_list << evnt
           end
->>>>>>> 6a4f56fffe7beac26e6999bacf5fe906326b8bd6
         end
       end
     end
   end
-<<<<<<< HEAD
-
 
 
   def listevents_prompt
     # binding.pry
-    puts "Please select the event you're interested in to see more details."
-=======
 
-
-  def listevents_prompt
-    binding.pry
-
->>>>>>> 6a4f56fffe7beac26e6999bacf5fe906326b8bd6
       #940 lecture at the blah
       if self.event_list == []
         puts ""
@@ -203,13 +190,24 @@ class Cli
     end
   end
 
+  def selectedevent_valid?
+    if self.selectedevent.to_i.between?(1,self.event_list.length)
+      self.listevents_selection
+    elsif self.listevents_input == "B"
+      self.events_picker
+    else puts "Invalid selection."
+      self.listevents_prompt
+    end
+  end
+
+
   def listevents_selection
-    event = self.event_list[self.selectedevent-1]
-    # event = Event.find_by(name:"Special Exhibition1")
+    # event = self.event_list[self.selectedevent-1]
+    event = Event.find_by(name:"Special Exhibition1")
     time = event.date_time
     puts "#{event.name.upcase} at the #{event.museum.name.upcase}"
     puts "Date: #{time.strftime('%A')}, #{time.strftime('%B')} #{time.strftime('%d')}, #{time.year}"
-    puts "Time:"
+    puts "Time: #{time.strftime('%-l:%M %p')}"
     puts "Duration: #{event.duration} minutes"
     puts "Details: #{event.description}"
 
@@ -217,9 +215,10 @@ class Cli
     puts "2. New Search"
     puts "3. Exit"
     self.nextoption = STDIN.gets.strip
+    self.nextoption_valid?
   end
 
-  def nextoption_selection
+  def nextoption_valid?
     case self.nextoption
     when "1"
       self.listevents_prompt
@@ -228,7 +227,7 @@ class Cli
     when "3"
       self.quit
     else
-      puts "Invalid option"
+      puts "Invalid selection"
       self.eventdetails_prompt
     end
   end
@@ -239,32 +238,6 @@ class Cli
 
    def call
     self.welcome
-    self.area_prompt
-    self.area_selection
-    # puts self.area
-    # puts "session area is:  #{self.area}""
-    self.eventtype_prompt
-    self.eventtype_selection
-<<<<<<< HEAD
-    # puts "session prompt is : #{self.eventtype}"
-    self.availabletime_prompt
-    self.availabletime_selection
-    # self.events_picker ###############################
-    self.listevents_prompt
-    self.listevents_selection
-    self.eventdetails_prompt
-    self.eventdetails_selection
-    self.quit
-=======
-    puts "session prompt is : #{self.eventtype}"
-    self.availabletime_prompt
-    self.availabletime_selection
-     self.events_picker ###############################
-     self.listevents_prompt
-    # self.listevents_selection
-    # self.eventdetails_prompt
-    # self.eventdetails_selection
->>>>>>> 6a4f56fffe7beac26e6999bacf5fe906326b8bd6
    end
 
 end
