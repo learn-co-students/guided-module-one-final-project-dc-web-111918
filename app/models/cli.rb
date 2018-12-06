@@ -162,7 +162,7 @@ class Cli
 
   def listevents_selection
     # event = self.eventlist[self.selectedevent-1]
-    event = Event.find_by(id: 1)
+    event = Event.find_by(name:"Special Exhibition1")
     time = event.date_time
     puts "#{event.name.upcase} at the #{event.museum.name.upcase}"
     puts "Date: #{time.strftime('%A')}, #{time.strftime('%B')} #{time.strftime('%d')}, #{time.year}"
