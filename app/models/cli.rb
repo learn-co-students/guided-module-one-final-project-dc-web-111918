@@ -1,6 +1,6 @@
 class Cli
   attr_accessor :area_input, :area, :eventtype_input, :eventtype, :availabletime_input,
-  :availabletime, :selectedevent,:time, :museum, :events, :event_list
+  :availabletime, :selectedevent,:time, :museum, :events, :event_list, :selectoption
 
   @@all = []
 
@@ -10,22 +10,6 @@ class Cli
 
   def welcome
       puts "Welcome to the DC Event Locator."
-      # #puts Event.all
-      # this_session = Cli.new
-      # #this_session.welcome
-      # this_session.area_prompt
-      # this_session.area_selection
-      # # puts this_session.area
-      # # puts "session area is:  #{this_session.area}""
-      # this_session.eventtype_prompt
-      # this_session.eventtype_selection
-      # # puts "session prompt is : #{this_session.eventtype}"
-      # this_session.availabletime_prompt
-      # this_session.availabletime_selection
-      # this_session.listevents_prompt
-      # this_session.listevents_selection
-      # this_session.eventdetails_prompt
-      # this_session.eventdetails_selection
   end
 
   def area_prompt
@@ -57,6 +41,7 @@ class Cli
       self.area = Neighborhood.find_by(name: "Foggy Bottom")
     else
       puts "Invalid option"
+      self.area_prompt
     end
   end
 
@@ -176,41 +161,25 @@ class Cli
   end
 
   def listevents_selection
-    case self.selectedevent
-    when "1"
-      puts "You've selected a" #{Event1}"
-    when "2"
-      puts "You've selected b" #{Event2}"
-    when "3"
-      puts "You've selected c" #{Event3}"
-    else
-      puts "Invalid option"
-      self.availabletime_prompt
-    end
-  end
+    event = self.eventlist[self.selectedevent-1]
+    time = event.date_time
+    puts event.name.upcase + " at the " + event.museum.name.upcase
+    puts "Details: #{time.strftime('%A')}, #{time.strftime('%B')} #{time.strftime('%d')}, #{time.year}"
+    puts "Duration: #{event.duration} minutes."
+    puts "Details: #{event.details}"
 
-
-  def eventdetails_prompt
-
-    puts "Museum in the Blah Neighborhood"
-    puts "Event Name"
-    puts "Event start datetime"
-    puts "Event duration"
-    puts "EVENT DETAILS: "
-  # EVENT DETAILS
-  #
     puts "1. Go back to list"
-    puts "2. Search again"
-    puts "3. Quit"
-    self.whatsnext = STDIN.gets.strip
+    puts "2. New Search"
+    puts "3. Exit"
+    self.nextoption = STDIN.gets.strip
   end
 
-  def eventdetails_selection
-    case self.whatsnext #doesnt' work
+  def nextoption_selection
+    case self.nextoption
     when "1"
       self.listevents_prompt
     when "2"
-      self.welcome
+      self.area_prompt
     when "3"
       self.quit
     else
@@ -221,7 +190,6 @@ class Cli
 
   def quit
     puts "Thank you for using the DC Event Locator come again!"
-    exit
   end
 
   def call
