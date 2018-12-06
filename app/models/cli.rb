@@ -107,57 +107,56 @@ class Cli
     end
   end
 
-  # def events_picker
-  #   self.event_list = []
-  #   d = DateTime.now
-  #   #d = d.strftime("%d/%m/%Y %H:%M")  ###implement me when we start using dates and not just times
-  #   date_now = d.strftime("%H:%M").tr(':','.date')
-  #   if Event.where(eventtype: eventtype, neighborhood_id: area.id) == []
-  #     "Sorry, there are no events matching your criteria, please search."
-  #     Cli.new.call
-  #   else
-  #     Event.where(eventtype: eventtype, neighborhood_id: area.id).select do |evnt|
-  #       date_now = date_now.split(':')[0].to_i + (date_now.split(':')[1].to_i * 1.0)/60 ###########time is hard to add. . .convert to integer
-  #       date_open = evnt.date_time.strftime("%H:%M").split(':')[0].to_i + (evnt.date_time.strftime("%H:%M").split(':')[1].to_i * 1.0)/60
-  #       date_close = (evnt.duration * 1.0)/60 + date_open
-  #       if eventtype == "Special Event" #make sure you can see 30 min
-  #         binding.pry
-  #         if (date_now > date_open) && (date_now < date_close - 0.5)
-  #           binding.pry
-  #           self.event_list << evnt
-  #           binding.pry
-  #         end
-  #       elsif eventtype == "Lecture" || "Concert"  #make sure you can see the entire thing and have time to get there
-  #         binding.pry  ###########craps out here
-  #         if (date_now > date_open - 0.5 ) && (date_now < date_close - 0.5)
-  #           binding.pry
-  #           self.event_list << evnt
-  #           binding.pry
-  #         end
-  #       elsif #eventtype == "Museum"  #just fit in the duration
-  #         binding.pry
-  #         if (date_now > date_open) && (date_now < date_close - 0.5)
-  #           binding.pry
-  #           self.event_list << evnt
-  #           binding.pry
-  #         end
-  #       else
-  #         binding.pry
-  #       end
-  #     end
-  #   end
-  # end
-
+  def events_picker
+    self.event_list = []
+    d = DateTime.now
+    #d = d.strftime("%d/%m/%Y %H:%M")  ###implement me when we start using dates and not just times
+    d = d.strftime("%H:%M").tr(':','.date')
+    if Event.where(eventtype: eventtype, neighborhood_id: area.id) == []
+      puts ""
+      puts ""
+      puts "Sorry, there are no events matching your criteria, please search."
+      puts ""
+      puts ""
+      Cli.new.call
+    else
+      Event.where(eventtype: eventtype, neighborhood_id: area.id).select do |evnt|
+        date_now = d.split(':')[0].to_i + (d.split(':')[1].to_i * 1.0)/60 ###########time is hard to add. . .convert to integer
+        date_open = evnt.date_time.strftime("%H:%M").split(':')[0].to_i + (evnt.date_time.strftime("%H:%M").split(':')[1].to_i * 1.0)/60
+        date_close = (evnt.duration * 1.0)/60 + date_open
+        if eventtype == "Special Event" && ((date_now > date_open) && (date_now < date_close - 0.5)) #make sure you can see 30 min
+            self.event_list << evnt
+        elsif eventtype == "Lecture" || "Concert" && ((date_now > date_open - 0.5 ) && (date_now < date_close - 0.5)) #make sure you can see the entire thing and have time to get there
+            self.event_list << evnt
+        else
+          if (date_now > date_open) && (date_now < date_close - 0.5) #eventtype == "Museum"  #just fit in the duration
+            self.event_list << evnt
+          end
+        end
+      end
+    end
+  end
 
 
   def listevents_prompt
     binding.pry
-    puts "Please select the event you're interested in to see more details."
+
       #940 lecture at the blah
+      if self.event_list == []
+        puts ""
+        puts ""
+        puts "Sorry, there are no events matching your criteria, please search."
+        puts ""
+        puts ""
+        Cli.new.call
+      else
+    puts "Please select the event you're interested in to see more details."
+    puts ""
     puts "1. #{ self.event_list[0].name} - #{self.event_list[0].name.strftime("%d/%m/%Y %H:%M")} #{ self.event_list[0].eventtype} at the #{Museum.find_by(id: self.event_list[0].museum_id).name}"
     puts "2. #{ self.event_list[1].name} - #{self.event_list[1].name.strftime("%d/%m/%Y %H:%M")} #{ self.event_list[1].eventtype} at the #{Museum.find_by(id: self.event_list[1].museum_id).name}"
     puts "3. #{ self.event_list[2].name} - #{self.event_list[2].name.strftime("%d/%m/%Y %H:%M")} #{ self.event_list[2].eventtype} at the #{Museum.find_by(id: self.event_list[2].museum_id).name}"
       self.selectedevent = STDIN.gets.strip
+    end
   end
 
   def listevents_selection
@@ -195,19 +194,19 @@ class Cli
   end
 
    def call
-    # self.welcome
-    # self.area_prompt
-    # self.area_selection
-    # # puts self.area
-    # # puts "session area is:  #{self.area}""
-    # self.eventtype_prompt
-    # self.eventtype_selection
-    # puts "session prompt is : #{self.eventtype}"
-    # self.availabletime_prompt
-    # self.availabletime_selection
-    # self.events_picker ###############################
-    # self.listevents_prompt
-    self.listevents_selection
+    self.welcome
+    self.area_prompt
+    self.area_selection
+    # puts self.area
+    # puts "session area is:  #{self.area}""
+    self.eventtype_prompt
+    self.eventtype_selection
+    puts "session prompt is : #{self.eventtype}"
+    self.availabletime_prompt
+    self.availabletime_selection
+     self.events_picker ###############################
+     self.listevents_prompt
+    # self.listevents_selection
     # self.eventdetails_prompt
     # self.eventdetails_selection
    end
