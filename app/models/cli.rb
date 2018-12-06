@@ -108,37 +108,37 @@ class Cli
   end
 
   def events_picker
-    def events_picker
-      self.event_list = []
-      d = DateTime.now
-      #d = d.strftime("%d/%m/%Y %H:%M")  ###implement me when we start using dates and not just times
-      d = d.strftime("%H:%M").tr(':','.date')
-      if Event.where(eventtype: eventtype, neighborhood_id: area.id) == []
-        puts ""
-        puts "Sorry, there are no events matching your criteria, please search again."
-        puts ""
-        puts ""
-        Cli.new.call
-      else
-        Event.where(eventtype: eventtype, neighborhood_id: area.id).select do |evnt|
-          date_now = d.split(':')[0].to_i + (d.split(':')[1].to_i * 1.0)/60 ###########time is hard to add. . .convert to integer
-          date_open = evnt.date_time.strftime("%H:%M").split(':')[0].to_i + (evnt.date_time.strftime("%H:%M").split(':')[1].to_i * 1.0)/60
-          date_close = (evnt.duration * 1.0)/60 + date_open
-          if eventtype == "Special Event" && ((date_now > date_open) && (date_now < date_close - 0.5)) #make sure you can see 30 min
-              self.event_list << evnt
-          elsif eventtype == "Lecture" || "Concert" && ((date_now > date_open - 0.5 ) && (date_now < date_close - 0.5)) #make sure you can see the entire thing and have time to get there
-              self.event_list << evnt
-          else
-            if (date_now > date_open) && (date_now < date_close - 0.5) #eventtype == "Museum"  #just fit in the duration
-              self.event_list << evnt
-            end
+    self.event_list = []
+    d = DateTime.now
+    #d = d.strftime("%d/%m/%Y %H:%M")  ###implement me when we start using dates and not just times
+    d = d.strftime("%H:%M").tr(':','.date')
+    if Event.where(eventtype: eventtype, neighborhood_id: area.id) == []
+      puts ""
+      puts "Sorry, there are no events matching your criteria, please search again."
+      puts ""
+      puts ""
+      Cli.new.call
+    else
+      Event.where(eventtype: eventtype, neighborhood_id: area.id).select do |evnt|
+        date_now = d.split(':')[0].to_i + (d.split(':')[1].to_i * 1.0)/60 ###########time is hard to add. . .convert to integer
+        date_open = evnt.date_time.strftime("%H:%M").split(':')[0].to_i + (evnt.date_time.strftime("%H:%M").split(':')[1].to_i * 1.0)/60
+        date_close = (evnt.duration * 1.0)/60 + date_open
+        if eventtype == "Special Event" && ((date_now > date_open) && (date_now < date_close - 0.5)) #make sure you can see 30 min
+            self.event_list << evnt
+        elsif eventtype == "Lecture" || "Concert" && ((date_now > date_open - 0.5 ) && (date_now < date_close - 0.5)) #make sure you can see the entire thing and have time to get there
+            self.event_list << evnt
+        else
+          if (date_now > date_open) && (date_now < date_close - 0.5) #eventtype == "Museum"  #just fit in the duration
+            self.event_list << evnt
           end
         end
       end
     end
+  end
+
 
   def listevents_prompt
-    if self.event_list == []
+    if self.event_list == [] || self.event_list == nil
       puts ""
       puts "Sorry, there are no events matching your criteria, please search again."
       puts ""
@@ -155,7 +155,7 @@ class Cli
   end
 
   def listevents_selection
-    event = self.event_list[self.selectedevent-1]
+    event = self.event_list[self.selectedevent.to_i-1]
     # event = Event.find_by(name:"Special Exhibition1")
     time = event.date_time
     puts "#{event.name.upcase} at the #{event.museum.name.upcase}"
@@ -199,7 +199,7 @@ class Cli
     # puts "session prompt is : #{self.eventtype}"
     self.availabletime_prompt
     self.availabletime_selection
-    # self.events_picker ###############################
+    self.events_picker ###############################
     self.listevents_prompt
     self.listevents_selection
     self.eventdetails_prompt
