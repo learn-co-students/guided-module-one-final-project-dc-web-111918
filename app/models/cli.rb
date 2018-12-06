@@ -9,9 +9,13 @@ class Cli
   end
 
   def welcome
+<<<<<<< HEAD
       puts "Welcome to the DC Event Locator."
       puts ""
       self.area_prompt
+=======
+      puts "Welcome to the DC Event Locator!"
+>>>>>>> 09bfca191b18aad669ad13cb6167ddaaa127eeb6
   end
 
   def area_prompt
@@ -145,8 +149,7 @@ class Cli
     d = d.strftime("%H:%M").tr(':','.date')
     if Event.where(eventtype: eventtype, neighborhood_id: area.id) == []
       puts ""
-      puts ""
-      puts "Sorry, there are no events matching your criteria, please search."
+      puts "Sorry, there are no events matching your criteria, please search again."
       puts ""
       puts ""
       Cli.new.call
@@ -170,22 +173,22 @@ class Cli
 
 
   def listevents_prompt
-    # binding.pry
+    if self.event_list == [] || self.event_list == nil
+      puts ""
+      puts "Sorry, there are no events matching your criteria, please search again."
+      puts ""
+      puts ""
+      Cli.new.call
+    else
 
-      #940 lecture at the blah
-      if self.event_list == []
-        puts ""
-        puts ""
-        puts "Sorry, there are no events matching your criteria, please search."
-        puts ""
-        puts ""
-        Cli.new.call
-      else
-    puts "Please select the event you're interested in to see more details."
-    puts ""
-    puts "1. #{ self.event_list[0].name} - #{self.event_list[0].name.strftime("%d/%m/%Y %H:%M")} #{ self.event_list[0].eventtype} at the #{Museum.find_by(id: self.event_list[0].museum_id).name}"
-    puts "2. #{ self.event_list[1].name} - #{self.event_list[1].name.strftime("%d/%m/%Y %H:%M")} #{ self.event_list[1].eventtype} at the #{Museum.find_by(id: self.event_list[1].museum_id).name}"
-    puts "3. #{ self.event_list[2].name} - #{self.event_list[2].name.strftime("%d/%m/%Y %H:%M")} #{ self.event_list[2].eventtype} at the #{Museum.find_by(id: self.event_list[2].museum_id).name}"
+
+      puts "Please select the event you're interested in to see more details."
+        #940 lecture at the blah
+        i = 1
+      self.event_list.each do |currevent|
+        puts "#{i}. #{ currevent.name} - #{currevent.date_time.strftime("%A, %b %d at %I:%M %p")} - #{currevent.eventtype} at the #{Museum.find_by(id: currevent.museum_id).name}"
+        i += 1
+      end
       self.selectedevent = STDIN.gets.strip
     end
   end
@@ -202,15 +205,16 @@ class Cli
 
 
   def listevents_selection
-    # event = self.event_list[self.selectedevent-1]
-    event = Event.find_by(name:"Special Exhibition1")
+    event = self.event_list[self.selectedevent.to_i-1]
+    # event = Event.find_by(name:"Special Exhibition1")
     time = event.date_time
     puts "#{event.name.upcase} at the #{event.museum.name.upcase}"
     puts "Date: #{time.strftime('%A')}, #{time.strftime('%B')} #{time.strftime('%d')}, #{time.year}"
     puts "Time: #{time.strftime('%-l:%M %p')}"
     puts "Duration: #{event.duration} minutes"
     puts "Details: #{event.description}"
-
+    puts ""
+    puts ""
     puts "1. Go back to list"
     puts "2. New Search"
     puts "3. Exit"
