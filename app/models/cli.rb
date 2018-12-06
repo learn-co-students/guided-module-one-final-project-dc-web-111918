@@ -9,13 +9,9 @@ class Cli
   end
 
   def welcome
-<<<<<<< HEAD
       puts "Welcome to the DC Event Locator."
       puts ""
       self.area_prompt
-=======
-      puts "Welcome to the DC Event Locator!"
->>>>>>> 09bfca191b18aad669ad13cb6167ddaaa127eeb6
   end
 
   def area_prompt
