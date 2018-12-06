@@ -9,27 +9,32 @@ class Cli
   end
 
   def welcome
-      puts "Welcome to the DC Event Locator."
+      puts ""
+      puts ""
+      puts "Welcome to the DC Neighborhood Events Finder!"
+      puts ""
       puts ""
       self.area_prompt
   end
 
   def area_prompt
     puts "Please choose an area from the following option for event listings:"
-    puts "1. Mall North"
-    puts "2. Mall South"
-    puts "3. Capitol Hill"
-    puts "4. Chinatown"
-    puts "5. Foggy Bottom"
+    i = 1
+    Neighborhood.all.each do |nbh|
+      puts "#{i}. #{nbh.name}"
+      i += 1
+    end
     self.area_input = STDIN.gets.strip
     self.area_valid?
   end
 
   def area_valid?
-    if self.area_input.to_i.between?(1,5)
+    if self.area_input.to_i.between?(1,Neighborhood.all.length)
       self.area_selection
     else
+      puts ""
       puts "Invalid selection."
+      puts ""
       self.area_prompt
     end
   end
@@ -37,18 +42,23 @@ class Cli
   def area_selection
     case self.area_input
     when "1"
+      puts ""
       puts "You've selected MALL NORTH"
       self.area = Neighborhood.find_by(name: "Mall North")
     when "2"
+      puts ""
       puts "You've selected MALL SOUTH"
       self.area = Neighborhood.find_by(name: "Mall South")
     when "3"
+      puts ""
       puts "You've selected CAPITOL HILL"
       self.area = Neighborhood.find_by(name: "Capitol Hill")
     when "4"
+      puts ""
       puts "You've selected CHINATOWN"
       self.area = Neighborhood.find_by(name: "Chinatown")
     when "5"
+      puts ""
       puts "You've selected FOGGY BOTTOM"
       self.area = Neighborhood.find_by(name: "Foggy Bottom")
     end
@@ -56,7 +66,10 @@ class Cli
   end
 
   def eventtype_prompt
+    puts ""
+    puts ""
     puts "What kind of event are you interested in today?"
+    puts ""
     puts "Please select from:"
     puts "1. Museum"
     puts "2. Lecture"
@@ -64,6 +77,7 @@ class Cli
     puts "4. Special Exhibition"
     puts ""
     puts "Enter 'B' to go back"
+    puts ""
       self.eventtype_input = STDIN.gets.strip
       self.eventtype_valid?
   end
@@ -109,6 +123,7 @@ class Cli
   end
 
   def availabletime_valid?
+    #binding.pry
     if self.availabletime.to_i.between?(1,4)
       self.availabletime_selection
     elsif self.availabletime == "B"
@@ -141,20 +156,20 @@ class Cli
     d = DateTime.now
     #d = d.strftime("%d/%m/%Y %H:%M")  ###implement me when we start using dates and not just times
     d = d.strftime("%H:%M").tr(':','.date')
-    if Event.where(eventtype: eventtype, neighborhood_id: area.id) == []
+    if Event.where(eventtype: self.eventtype, neighborhood_id: self.area.id) == []
       puts ""
       puts "Sorry, there are no events matching your criteria, please search again."
       puts ""
       puts ""
       Cli.new.call
     else
-      Event.where(eventtype: eventtype, neighborhood_id: area.id).select do |evnt|
+      Event.where(eventtype: self.eventtype, neighborhood_id: self.area.id).select do |evnt|
         date_now = d.split(':')[0].to_i + (d.split(':')[1].to_i * 1.0)/60 ###########time is hard to add. . .convert to integer
         date_open = evnt.date_time.strftime("%H:%M").split(':')[0].to_i + (evnt.date_time.strftime("%H:%M").split(':')[1].to_i * 1.0)/60
         date_close = (evnt.duration * 1.0)/60 + date_open
-        if eventtype == "Special Event" && ((date_now > date_open) && (date_now < date_close - 0.5)) #make sure you can see 30 min
+        if (self.eventtype == "Special Event") && ((date_now > date_open) && (date_now < date_close - 0.5)) #make sure you can see 30 min
             self.event_list << evnt
-        elsif eventtype == "Lecture" || "Concert" && ((date_now > date_open - 0.5 ) && (date_now < date_close - 0.5)) #make sure you can see the entire thing and have time to get there
+        elsif (self.eventtype == ("Lecture" || "Concert")) && ((date_now > date_open - 0.5 ) && (date_now < date_close - 0.5)) #make sure you can see the entire thing and have time to get there
             self.event_list << evnt
         else
           if (date_now > date_open) && (date_now < date_close - 0.5) #eventtype == "Museum"  #just fit in the duration
@@ -162,6 +177,7 @@ class Cli
           end
         end
       end
+      self.listevents_prompt
     end
   end
 
@@ -174,8 +190,6 @@ class Cli
       puts ""
       Cli.new.call
     else
-
-
       puts "Please select the event you're interested in to see more details."
         #940 lecture at the blah
         i = 1
@@ -184,6 +198,7 @@ class Cli
         i += 1
       end
       self.selectedevent = STDIN.gets.strip
+      self.selectedevent_valid?
     end
   end
 
