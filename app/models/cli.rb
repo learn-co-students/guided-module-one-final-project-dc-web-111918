@@ -234,8 +234,8 @@ class Cli
     puts "Thank you for using the DC Event Locator come again!"
   end
 
-   def call
+  def call
     self.welcome
-   end
+  end
 
 end
