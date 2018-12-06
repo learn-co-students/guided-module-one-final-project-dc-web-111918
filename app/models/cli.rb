@@ -153,10 +153,10 @@ class Cli
   def listevents_prompt
     binding.pry
     puts "Please select the event you're interested in to see more details."
-
-    puts "1. FILLER1" #grab from db
-    puts "2. FILLER2" #grab from db
-    puts "3. FILLER3" #grab from db
+      #940 lecture at the blah
+    puts "1. #{ self.event_list[0].name} - #{self.event_list[0].name.strftime("%d/%m/%Y %H:%M")} #{ self.event_list[0].eventtype} at the #{Museum.find_by(id: self.event_list[0].museum_id).name}"
+    puts "2. #{ self.event_list[1].name} - #{self.event_list[1].name.strftime("%d/%m/%Y %H:%M")} #{ self.event_list[1].eventtype} at the #{Museum.find_by(id: self.event_list[1].museum_id).name}"
+    puts "3. #{ self.event_list[2].name} - #{self.event_list[2].name.strftime("%d/%m/%Y %H:%M")} #{ self.event_list[2].eventtype} at the #{Museum.find_by(id: self.event_list[2].museum_id).name}"
       self.selectedevent = STDIN.gets.strip
   end
 
