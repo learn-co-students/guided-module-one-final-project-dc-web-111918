@@ -172,6 +172,7 @@ class Cli
         elsif (self.eventtype == ("Lecture" || "Concert")) && ((date_now > date_open - 0.5 ) && (date_now < date_close - 0.5)) #make sure you can see the entire thing and have time to get there
             self.event_list << evnt
         else
+          #binding.pry
           if (date_now > date_open) && (date_now < date_close - 0.5) #eventtype == "Museum"  #just fit in the duration
             self.event_list << evnt
           end
@@ -241,7 +242,7 @@ class Cli
       self.quit
     else
       puts "Invalid selection"
-      self.eventdetails_prompt
+      self.listevents_selection
     end
   end
 
