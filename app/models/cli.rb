@@ -72,8 +72,8 @@ class Cli
     puts ""
     puts "Please select from:"
     puts "1. Museum"
-    puts "2. Lecture"
-    puts "3. Concert"
+    puts "2. Lectures and Discussions"
+    puts "3. Concert and Performances"
     puts "4. Special Exhibition"
     puts ""
     puts "Enter 'B' to go back"
@@ -85,7 +85,7 @@ class Cli
   def eventtype_valid?
     if self.eventtype_input.to_i.between?(1,4)
       self.eventtype_selection
-    elsif self.eventtype_input == "B"
+    elsif self.eventtype_input == "B" || self.eventtype_input == "b"
       self.area_prompt
     else puts "Invalid selection."
       self.eventtype_prompt
@@ -98,10 +98,10 @@ class Cli
       puts "You've selected MUSEUM"
       self.eventtype = "Museum"
     when "2"
-      puts "You've selected LECTURE"
+      puts "You've selected LECTURE AND DISCUSSIONS"
       self.eventtype = "Lecture"
     when "3"
-      puts "You've selected CONCERT"
+      puts "You've selected CONCERTS AND PERFORMANCES"
       self.eventtype = "Concert"
     when "4"
       puts "You've selected SPECIAL EXHIBITION"
@@ -126,7 +126,7 @@ class Cli
     #binding.pry
     if self.availabletime.to_i.between?(1,4)
       self.availabletime_selection
-    elsif self.availabletime == "B"
+    elsif self.selectedevent == "B" || self.selectedevent == "b"
       self.events_picker
     else puts "Invalid selection."
       self.availabletime_prompt
@@ -206,7 +206,7 @@ class Cli
   def selectedevent_valid?
     if self.selectedevent.to_i.between?(1,self.event_list.length)
       self.listevents_selection
-    elsif self.listevents_input == "B"
+    elsif self.selectedevent == "B"
       self.events_picker
     else puts "Invalid selection."
       self.listevents_prompt
