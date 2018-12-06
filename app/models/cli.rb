@@ -26,7 +26,6 @@ class Cli
   end
 
   def area_valid?
-    self.area_prompt
     if self.area_input.to_i.between?(1,5)
       self.area_selection
     else
