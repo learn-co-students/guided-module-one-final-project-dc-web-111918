@@ -161,6 +161,7 @@ class Cli
       puts "Sorry, there are no events matching your criteria, please search again."
       puts ""
       puts ""
+      puts ""
       Cli.new.call
     else
       Event.where(eventtype: self.eventtype, neighborhood_id: self.area.id).select do |evnt|
