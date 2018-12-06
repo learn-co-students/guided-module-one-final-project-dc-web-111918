@@ -192,7 +192,7 @@ class Cli
     puts "Thank you for using the DC Event Locator come again!"
   end
 
-  def call
+   def call
     self.welcome
     self.area_prompt
     self.area_selection
@@ -208,6 +208,6 @@ class Cli
     self.listevents_selection
     self.eventdetails_prompt
     self.eventdetails_selection
-  end
+   end
 
 end
