@@ -1,5 +1,5 @@
 class Cli
-  attr_accessor :area_input, :area, :eventtype_input, :eventtype, :availabletime_input,
+  attr_accessor :area_input, :area, :eventtype_input, :eventtype,
   :availabletime, :selectedevent,:time, :museum, :events, :event_list, :selectoption, :nextoption
 
   @@all = []
@@ -69,7 +69,7 @@ class Cli
   end
 
   def eventtype_valid?
-    if self.eventtype_input.to_i.between?(1,5)
+    if self.eventtype_input.to_i.between?(1,4)
       self.eventtype_selection
     elsif self.eventtype_input == "B"
       self.area_prompt
@@ -105,12 +105,13 @@ class Cli
     puts ""
     puts "Enter 'B' to go back"
       self.availabletime = STDIN.gets.strip
+      availabletime_valid?
   end
 
   def availabletime_valid?
-    if self.availabletime_input.to_i.between?(1,5)
+    if self.availabletime.to_i.between?(1,4)
       self.availabletime_selection
-    elsif self.availabletime_input == "B"
+    elsif self.availabletime == "B"
       self.events_picker
     else puts "Invalid selection."
       self.availabletime_prompt
@@ -131,10 +132,8 @@ class Cli
     when "4"
       puts "More than 2 hours"
       self.availabletime = 121
-    when "B"
-      self.eventtype_prompt
     end
-    self.event_picker
+    self.events_picker
   end
 
   def events_picker
