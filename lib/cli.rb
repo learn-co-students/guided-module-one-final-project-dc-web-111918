@@ -61,7 +61,8 @@ def userlogin_prompt
 end
 
 def userlogin_valid?
-  if User.find_by(name: userlogin_input)
+  #binding.pry ##########################################################
+  if User.find_by(name: userlogin_input) != nil
     if User.find_by(name: userlogin_input).name == self.userlogin_input #########put in custom error catch
       self.active_user = User.find_by(name: userlogin_input) ### if you use this method.name it dies if there isn't a match
       self.welcome_user
@@ -69,7 +70,7 @@ def userlogin_valid?
   else
     puts ""
     puts ""
-    puts Rainbow ("I'm sorry that's not a valid username.").red
+    puts Rainbow ("I'm sorry that's not a valid username.").bright.red
     puts ""
     puts "I'll let you try again."
     puts ""
@@ -97,7 +98,7 @@ end
 def welcome_user
   puts ""
   puts ""
-  puts "#{self.active_user.name} is now logged in!"
+  puts "Welcome #{self.active_user.name}, you are now logged in!"
   puts ""
   self.area_prompt
 end
