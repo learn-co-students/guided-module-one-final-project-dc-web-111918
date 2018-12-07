@@ -36,12 +36,18 @@ end
 def userquery_valid?
   if self.userqueryprompt_input.to_i.between?(1,2)
     self.userlogin_selection
-  else puts "Invalid selection."
+  else
+    puts "Invalid selection."
     self.userquery_prompt
   end
 end
 
+def remove_nonnumerical_char(val)
+  return val = val.gsub(/[()-+.]/,'')
+end
+
 def userlogin_selection
+  self.userqueryprompt_input = remove_nonnumerical_char(self.userqueryprompt_input)
   case self.userqueryprompt_input
   when "1"
     self.userlogin_prompt
@@ -59,6 +65,18 @@ def userlogin_prompt
     self.userlogin_input = STDIN.gets.strip
     self.userlogin_valid?
 end
+
+#
+# def area_valid?
+#   if self.area_input.to_i.between?(1,Neighborhood.all.length+1)
+#     self.area_selection
+#   else
+#     puts ""
+#     puts Rainbow ("Invalid Selection").bright.red
+#     puts ""
+#     self.area_prompt
+#   end
+# end
 
 def userlogin_valid?
   #binding.pry ##########################################################
@@ -122,13 +140,14 @@ end
       self.area_selection
     else
       puts ""
-      puts "Invalid selection."
+      puts Rainbow ("Invalid Selection").bright.red
       puts ""
       self.area_prompt
     end
   end
 
   def area_selection
+    self.area_input = remove_nonnumerical_char(self.area_input)
     case self.area_input
     when "1"
       puts ""
@@ -177,7 +196,7 @@ end
       self.eventtype_selection
     elsif self.eventtype_input == "B" || self.eventtype_input == "b"
       self.area_prompt
-    else puts "Invalid selection."
+    else puts Rainbow ("I'm sorry that's not a valid username.").bright.red
       self.eventtype_prompt
     end
   end
@@ -221,7 +240,7 @@ end
       self.availabletime_selection
     elsif self.selectedevent == "B" || self.selectedevent == "b"
       self.events_picker
-    else puts "Invalid selection."
+    else puts Rainbow ("I'm sorry that's not a valid username.").bright.red
       self.availabletime_prompt
     end
   end
@@ -309,7 +328,7 @@ end
       self.listevents_selection
     elsif self.selectedevent == "B"
       self.events_picker
-    else puts "Invalid selection."
+    else puts Rainbow ("I'm sorry that's not a valid selection.").bright.red
       self.listevents_prompt
     end
   end
@@ -351,14 +370,14 @@ end
     when "3"
       self.quit
     else
-      puts "Invalid selection"
+      puts Rainbow ("I'm sorry that's not a valid selection.").bright.red
       self.listevents_selection
     end
   end
 
   def quit
     puts ""
-    puts "Thank you #{self.active_user.name} for using the DC Event Locator come again!"
+    puts "Thank you #{self.active_user.name} for using Disctrict Discover come again!"
     puts ""
   end
 
