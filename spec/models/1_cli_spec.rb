@@ -12,12 +12,12 @@ describe "CliChecker" do
   end
 
     it 'expects eventtype_valid? to return Invalid Selection' do
-    self.area_input.to_i = "5"
+    self.eventtype_input.to_i = "7"
     expect (self.area.valid?).to be("Invalid selection")
   end
 
-    it 'expects eventtype_valid? to return Invalid Selection' do
-    self.area_input.to_i = "5"
+    it 'expects availabletime_valid? to return Invalid Selection' do
+    self.avalailabletime_input.to_i = "1"
     expect (self.area.valid?).to be("Invalid selection")
   end
 
