@@ -5,10 +5,15 @@ class User < ActiveRecord::Base
 
   def retrieve
     get_movie_id = Watchedmovies.all.find_all {|movie| movie.user_id == self.id}
-    binding.pry
-        hopefully_found = Movie.all.select {|x| x.id == get_movie_id[0].movie_id}
-        puts hopefully_found[0].title
-  end
 
+    get_movie_id.each do |x|
+      if x.movie_id == nil
+        get_movie_id.delete(x)
+      end
+    end
 
-end
+    get_movie_id.each do |x|
+      puts Movie.all.select {|y| y.id == x.movie_id}[0].title
+    end
+  end #retrieve end
+end #class end
