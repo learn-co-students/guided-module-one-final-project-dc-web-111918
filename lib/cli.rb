@@ -86,7 +86,6 @@ end
 # end
 
 def userlogin_valid?
-  #binding.pry ##########################################################
   if User.find_by(name: userlogin_input) != nil
     if User.find_by(name: userlogin_input).name == self.userlogin_input #########put in custom error catch
       self.active_user = User.find_by(name: userlogin_input) ### if you use this method.name it dies if there isn't a match
