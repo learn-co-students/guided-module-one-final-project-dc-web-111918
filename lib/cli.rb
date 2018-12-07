@@ -45,7 +45,7 @@ def userquery_valid?
 end
 
 def remove_nonnumerical_char(val)
-  return val = val.gsub(/[()-+.]/,'')
+  val.gsub(/[()-+.]/,'') if val != ("B" || "b")
 end
 
 def userlogin_selection
@@ -207,6 +207,7 @@ end
   end
 
   def eventtype_selection
+    self.eventtype_input = remove_nonnumerical_char(self.eventtype_input)
     header
     case self.eventtype_input
     when "1"
@@ -252,6 +253,7 @@ end
   end
 
   def availabletime_selection
+    self.availabletime = remove_nonnumerical_char(self.availabletime)
     header
     case self.availabletime
     when "1"
@@ -287,7 +289,7 @@ end
       self.area_prompt
     else
       Event.where(search_params).select do |evnt|
-        date_now = d.split(':')[0].to_i + (d.split(':')[1].to_i * 1.0)/60 ###########time is annoying to add. . .converted to integer
+        date_now = d.split(':')[0].to_i + (d.split(':')[1].to_i * 1.0)/60 ###########time is annoying to add in current format. . .converted to integer - fix later
         date_open = evnt.date_time.strftime("%H:%M").split(':')[0].to_i + (evnt.date_time.strftime("%H:%M").split(':')[1].to_i * 1.0)/60
         date_close = (evnt.duration * 1.0)/60 + date_open
         if (self.eventtype == "Special Event") && ((date_now > date_open) && (date_now < date_close - 0.5) && availabletime < evnt.duration) #make sure you can see 30 min
@@ -320,7 +322,11 @@ end
       puts ""
         i = 1
       self.event_list.each do |currevent|
-        puts "#{i}. #{currevent.name} - #{currevent.date_time.strftime("%A, %b %d at %I:%M %p")} - #{currevent.eventtype} at the #{Museum.find_by(id: currevent.museum_id).name}"
+        if Museum.find_by(id: currevent.museum_id).name == currevent.name
+          puts "#{i}. #{currevent.name} - #{Museum.find_by(id: currevent.museum_id).hoursopen.strftime("%I:%M %p")} - #{Museum.find_by(id: currevent.museum_id).hoursclose.strftime("%I:%M %p")}"
+        elsif
+          puts "#{i}. #{currevent.name} - #{currevent.date_time.strftime("%A, %b %d at %I:%M %p")} - #{currevent.eventtype} at the #{Museum.find_by(id: currevent.museum_id).name}"
+        end
         i += 1
       end
       self.selectedevent = STDIN.gets.strip
@@ -351,7 +357,6 @@ end
     end
     puts ""
     puts "Date: #{time.strftime('%A')}, #{time.strftime('%B')} #{time.strftime('%d')}, #{time.year}"
-    binding.pry
     puts "Time: #{time.strftime('%-l:%M %p')}"
     if event.duration > 120
       hours = event.duration / 60
@@ -373,6 +378,7 @@ end
   end
 
   def nextoption_valid?
+    self.nextoption = remove_nonnumerical_char(self.nextoption)
     case self.nextoption
     when "1"
       self.listevents_prompt
