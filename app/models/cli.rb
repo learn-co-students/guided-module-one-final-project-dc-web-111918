@@ -169,10 +169,6 @@ class Cli
         date_now = d.split(':')[0].to_i + (d.split(':')[1].to_i * 1.0)/60 ###########time is hard to add. . .convert to integer
         date_open = evnt.date_time.strftime("%H:%M").split(':')[0].to_i + (evnt.date_time.strftime("%H:%M").split(':')[1].to_i * 1.0)/60
         date_close = (evnt.duration * 1.0)/60 + date_open
-<<<<<<< HEAD
-=======
-        binding.pry
->>>>>>> df1a4e9b285c5d5f72d49c9e413495dac59ef792
         if (self.eventtype == "Special Event") && ((date_now > date_open) && (date_now < date_close - 0.5)) #make sure you can see 30 min
             self.event_list << evnt
         elsif (self.eventtype == ("Lecture" || "Concert")) && ((date_now > date_open - 0.5 ) && (date_now < date_close - 0.5)) #make sure you can see the entire thing and have time to get there
@@ -201,8 +197,9 @@ class Cli
         #940 lecture at the blah
         i = 1
       self.event_list.each do |currevent|
-        puts "#{i}. #{ currevent.name} - #{currevent.date_time.strftime("%A, %b %d at %I:%M %p")} - #{currevent.eventtype} at the #{Museum.find_by(id: currevent.museum_id).name}"
+        puts "#{i}. #{currevent.name} - #{currevent.date_time.strftime("%A, %b %d at %I:%M %p")} - #{currevent.eventtype} at the #{Museum.find_by(id: currevent.museum_id).name}"
         i += 1
+        binding.pry
       end
       self.selectedevent = STDIN.gets.strip
       self.selectedevent_valid?
