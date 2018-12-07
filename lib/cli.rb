@@ -102,10 +102,7 @@ end
 ###new user creation start
 def createnewuser_prompt
   header
-  puts ""
-  puts ""
-  puts "Please enter a username."
-  puts ""
+  puts "\n\nPlease enter a username.\n"
     self.createnewuser_input = STDIN.gets.strip
     self.createnewuser_valid?
 end
@@ -128,7 +125,7 @@ end
 #################user stuff END NEW
   def area_prompt
     puts ""
-    puts "Please choose an area from the following option for event listings:"
+    puts "Please choose an area from the following options for event listings:"
     puts ""
     i = 1
     Neighborhood.all.each do |nbh|

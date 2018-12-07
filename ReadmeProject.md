@@ -1,6 +1,6 @@
 ####  DC Events  ####
 
-Welcome to the DC Neighborhood Events Finder!
+Welcome to the District Discoverer!
 
 Have you ever been wandering around DC and wondered what there was to do in your area? While we can use Yelp to find restaurants, there's nothing like this for DC events so we decided to take a stab!
 
@@ -14,23 +14,19 @@ DC Neighborhood Events Finder V 0.1
 Written in Ruby
 
 #Features to add:
-  -Show all events vs selecting a type.
   -Paid vs free
-  -Suggest nearby events.
+  -Suggest nearby events if nothing returned.
   -Add Users
-    -Save User
-    -Login by username
     -Favorite Events/Venues
   -Add Reviews and Star ratings for events
   -Tap into local APIs
     -https://api.kennedy-center.org/
 
-
 Authors: JC Chang and Beau Jepson
 
 #Contributions:
 
-If you'd like to use our code as a starting point for your own project or would like to improve on what we've got. Feel free to fork and make your own changes or raise a Github issue so we can put your feature/bug on our features list.
+If you'd like to use our code as a starting point for your own project or would like to improve on what we've got, check out the contributing.md. Also feel free to fork and make your own changes or raise a Github issue so we can put your feature/bug on our features list.
 
 #### Disclaimers/Legal ####
 
