@@ -18,7 +18,9 @@ class Cli
   end
 
   def area_prompt
+    puts ""
     puts "Please choose an area from the following option for event listings:"
+    puts ""
     i = 1
     Neighborhood.all.each do |nbh|
       puts "#{i}. #{nbh.name}"
@@ -67,10 +69,10 @@ class Cli
 
   def eventtype_prompt
     puts ""
-    puts ""
     puts "What kind of event are you interested in today?"
     puts ""
     puts "Please select from:"
+    puts ""
     puts "1. Museum"
     puts "2. Lectures and Discussions"
     puts "3. Concert and Performances"
@@ -111,6 +113,7 @@ class Cli
   end
 
   def availabletime_prompt
+    puts ""
     puts "How much time do you have?" #### if we have time make it deal with hours/minutes. break it down?
     puts "1. 30 Minutes"
     puts "2. 1 hour"
@@ -123,7 +126,6 @@ class Cli
   end
 
   def availabletime_valid?
-    #binding.pry
     if self.availabletime.to_i.between?(1,4)
       self.availabletime_selection
     elsif self.selectedevent == "B" || self.selectedevent == "b"
@@ -168,10 +170,9 @@ class Cli
         date_now = d.split(':')[0].to_i + (d.split(':')[1].to_i * 1.0)/60 ###########time is hard to add. . .convert to integer
         date_open = evnt.date_time.strftime("%H:%M").split(':')[0].to_i + (evnt.date_time.strftime("%H:%M").split(':')[1].to_i * 1.0)/60
         date_close = (evnt.duration * 1.0)/60 + date_open
-        binding.pry
-        if (self.eventtype == "Special Event") && ((date_now > date_open) && (date_now < date_close - 0.5)) #make sure you can see 30 min
+        if (self.eventtype == "Special Event") && ((date_now > date_open) && (date_now < date_close - 0.5) && availabletime < evnt.duration) #make sure you can see 30 min
             self.event_list << evnt
-        elsif (self.eventtype == ("Lecture" || "Concert")) && ((date_now > date_open - 0.5 ) && (date_now < date_close - 0.5)) #make sure you can see the entire thing and have time to get there
+        elsif (self.eventtype == ("Lecture" || "Concert")) && ((date_now > date_open - 0.5 ) && (date_now < date_close - 0.5) && availabletime < evnt.duration) #make sure you can see the entire thing and have time to get there
             self.event_list << evnt
         else #####need actual museum date open and close rather than event
           if (date_now > date_open) && (date_now < date_close - 0.5) #eventtype == "Museum"  #just fit in the duration
@@ -219,16 +220,21 @@ class Cli
     event = self.event_list[self.selectedevent.to_i-1]
     # event = Event.find_by(name:"Special Exhibition1")
     time = event.date_time
+    puts ""
     puts "#{event.name.upcase} at the #{event.museum.name.upcase}"
+    puts ""
     puts "Date: #{time.strftime('%A')}, #{time.strftime('%B')} #{time.strftime('%d')}, #{time.year}"
     puts "Time: #{time.strftime('%-l:%M %p')}"
-    puts "Duration: #{event.duration} minutes"
+    hours = event.duration / 60
+    rest = event.duration % 60
+    puts "Duration: #{hours}:#{rest}"
     puts "Details: #{event.description}"
     puts ""
     puts ""
     puts "1. Go back to list"
     puts "2. New Search"
     puts "3. Exit"
+    puts ""
     self.nextoption = STDIN.gets.strip
     self.nextoption_valid?
   end
@@ -248,7 +254,9 @@ class Cli
   end
 
   def quit
+    puts ""
     puts "Thank you for using the DC Event Locator come again!"
+    puts ""
   end
 
   def call
