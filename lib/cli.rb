@@ -18,19 +18,14 @@ class Cli
 
   def welcome
       header
-      puts ""
       #self.area_prompt   ####Bypass user stuff
       self.userquery_prompt
   end
 #####################user stuff new##################
 def userquery_prompt
-  puts "Have you used this system before?"
-  puts ""
+  puts "\nHave you used this system before?\n"
   puts "1. Yes"
-  puts "2. No"
-  #puts "3. Exit"
-  puts ""
-  puts ""
+  puts "2. No\n\n"
     self.userqueryprompt_input = STDIN.gets.strip.downcase
     self.userquery_valid?
 end
@@ -39,7 +34,7 @@ def userquery_valid?
   if self.userqueryprompt_input.to_i.between?(1,2)
     self.userlogin_selection
   else
-    puts "Invalid selection."
+    puts Rainbow ("Invalid Selection").bright.red
     self.userquery_prompt
   end
 end
@@ -61,10 +56,7 @@ end
 ###old user login start
 def userlogin_prompt
   header
-  puts ""
-  puts ""
-  puts "Please enter your username to login."
-  puts ""
+  puts "\n\nPlease enter your username to login.\n"
     self.userlogin_input = STDIN.gets.strip
     self.userlogin_valid?
 end
@@ -88,12 +80,8 @@ def userlogin_valid?
       self.welcome_user
     end
   else
-    puts ""
-    puts ""
-    puts Rainbow ("I'm sorry that's not a valid username.").bright.red
-    puts ""
-    puts "I'll let you try again."
-    puts ""
+    puts Rainbow ("\n\nI'm sorry that's not a valid username.\n").bright.red
+    puts "I'll let you try again.\n"
     self.userquery_prompt
   end
 end
@@ -115,18 +103,13 @@ end
 
 def welcome_user
   header
-  puts ""
-  puts ""
-  puts "Welcome #{self.active_user.name}, you are now logged in!"
-  puts ""
+  puts "\n\nWelcome #{self.active_user.name}, you are now logged in!\n"
   self.area_prompt
 end
 
 #################user stuff END NEW
   def area_prompt
-    puts ""
-    puts "Please choose an area from the following options for event listings:"
-    puts ""
+    Rainbow ("\nPlease choose an area from the following options for event listings:\n\n").bright.blue
     i = 1
     Neighborhood.all.each do |nbh|
       puts "#{i}. #{nbh.name}"
@@ -140,9 +123,7 @@ end
     if self.area_input.to_i.between?(1,Neighborhood.all.length+1)
       self.area_selection
     else
-      puts ""
-      puts Rainbow ("Invalid Selection").bright.red
-      puts ""
+      puts Rainbow ("\nInvalid Selection\n").bright.red
       self.area_prompt
     end
   end
@@ -152,43 +133,33 @@ end
     self.area_input = remove_nonnumerical_char(self.area_input)
     case self.area_input
     when "1"
-      puts ""
-      puts "You've selected MALL NORTH"
+      puts "\nYou've selected MALL NORTH"
       self.area = Neighborhood.find_by(name: "Mall North")
     when "2"
-      puts ""
-      puts "You've selected MALL SOUTH"
+      puts "\nYou've selected MALL SOUTH"
       self.area = Neighborhood.find_by(name: "Mall South")
     when "3"
-      puts ""
-      puts "You've selected CAPITOL HILL"
+      puts "\nYou've selected CAPITOL HILL"
       self.area = Neighborhood.find_by(name: "Capitol Hill")
     when "4"
-      puts ""
-      puts "You've selected CHINATOWN"
+      puts "\nYou've selected CHINATOWN"
       self.area = Neighborhood.find_by(name: "Chinatown")
     when "5"
-      puts ""
-      puts "You've selected FOGGY BOTTOM"
+      puts "\nYou've selected FOGGY BOTTOM"
       self.area = Neighborhood.find_by(name: "Foggy Bottom")
     end
       self.eventtype_prompt
   end
 
   def eventtype_prompt
-    puts ""
-    puts "What kind of event are you interested in today?"
-    puts ""
-    puts "Please select from:"
-    puts ""
+    puts "\nWhat kind of event are you interested in today?"
+    puts "\nPlease select from:\n"
     puts "1. Museum"
     puts "2. Lectures and Discussions"
     puts "3. Concert and Performances"
     puts "4. Special Exhibition"
-    puts "5. I don't care I just want to see what is available"
-    puts ""
-    puts "Enter 'B' to go back"
-    puts ""
+    puts "5. I don't care I just want to see what is available\n"
+    puts "Enter 'B' to go back\n"
       self.eventtype_input = STDIN.gets.strip
       self.eventtype_valid?
   end
@@ -198,7 +169,7 @@ end
       self.eventtype_selection
     elsif self.eventtype_input == "B" || self.eventtype_input == "b"
       self.area_prompt
-    else puts Rainbow ("I'm sorry that's not a valid username.").bright.red
+    else puts Rainbow ("I'm sorry that's not a entry.").bright.red
       self.eventtype_prompt
     end
   end
@@ -244,7 +215,7 @@ end
       self.availabletime_selection
     elsif self.selectedevent == "B" || self.selectedevent == "b"
       self.events_picker
-    else puts Rainbow ("I'm sorry that's not a valid username.").bright.red
+    else puts Rainbow ("I'm sorry that's not a entry.").bright.red
       self.availabletime_prompt
     end
   end
@@ -291,7 +262,7 @@ end
         date_close = (evnt.duration * 1.0)/60 + date_open
         if (self.eventtype == "Special Event") && ((date_now > date_open) && (date_now < date_close - 0.5) && availabletime < evnt.duration) #make sure you can see 30 min
             self.event_list << evnt
-        elsif (self.eventtype == ("Lecture" || "Concert")) && ((date_now > date_open - 0.5 ) && (date_now < date_close - 0.5) && availabletime < evnt.duration) #make sure you can see the entire thing and have time to get there
+        elsif ((self.eventtype == "Lecture") || (self.eventtype == "Concert")) && ((date_now > date_open - 0.5 ) && (date_now < date_close - 0.5) && availabletime < evnt.duration) #make sure you can see the entire thing and have time to get there
             self.event_list << evnt
         else
           if (date_now > date_open) && (date_now < date_close - 0.5) #eventtype == "Museum"  #just fit in the duration
