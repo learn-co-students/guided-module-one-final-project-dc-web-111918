@@ -1,5 +1,3 @@
-require 'rainbow'
-require 'artii'
 class Cli
   attr_accessor :area_input, :area, :eventtype_input, :eventtype, :ratings, :users,
   :availabletime, :selectedevent,:time, :museum, :events, :event_list, :selectoption,
@@ -15,9 +13,6 @@ class Cli
   def welcome
       puts ""
       puts ""
-      #artii "DC Neighborhood Events Finder!"
-      a = Artii::Base.new
-      a.asciify('word')
       puts Rainbow ("DC Neighborhood Events Finder!").bright.underline.blue
       puts ""
       puts ""
@@ -74,7 +69,8 @@ def userlogin_valid?
   else
     puts ""
     puts ""
-    puts "I'm sorry that's not a valid username."
+    puts Rainbow ("I'm sorry that's not a valid username.").red
+    puts ""
     puts "I'll let you try again."
     puts ""
     self.userquery_prompt
@@ -93,7 +89,7 @@ def createnewuser_prompt
 end
 
 def createnewuser_valid?
-  self.active_user = User.find_or_create_by(name: self.createnewuser_input) ###need a catch
+  self.active_user = User.find_or_create_by(name: self.createnewuser_input)
   self.welcome_user
 end
 ###new user creation end
@@ -121,7 +117,7 @@ end
   end
 
   def area_valid?
-    if self.area_input.to_i.between?(1,Neighborhood.all.length)
+    if self.area_input.to_i.between?(1,Neighborhood.all.length+1)
       self.area_selection
     else
       puts ""
@@ -167,6 +163,7 @@ end
     puts "2. Lectures and Discussions"
     puts "3. Concert and Performances"
     puts "4. Special Exhibition"
+    puts "5. I don't care I just want to see what is available"
     puts ""
     puts "Enter 'B' to go back"
     puts ""
@@ -175,7 +172,7 @@ end
   end
 
   def eventtype_valid?
-    if self.eventtype_input.to_i.between?(1,4)
+    if self.eventtype_input.to_i.between?(1,5)
       self.eventtype_selection
     elsif self.eventtype_input == "B" || self.eventtype_input == "b"
       self.area_prompt
@@ -198,6 +195,9 @@ end
     when "4"
       puts "You've selected SPECIAL EXHIBITION"
       self.eventtype = "Special Exhibition"
+    when "5"
+      puts "You've selected Any"
+      self.eventtype = "Any Event"
     end
     self.availabletime_prompt
   end
@@ -248,16 +248,20 @@ end
     d = DateTime.now # - (8/24.0)
     #d = d.strftime("%d/%m/%Y %H:%M")  ###implement me when we start using dates and not just times
     d = d.strftime("%H:%M").tr(':','.date')
-    if Event.where(eventtype: self.eventtype, neighborhood_id: self.area.id) == []
+    #binding.pry
+    #self.eventtype == "Any Event" ? evnttype = nil : (evnttype = eventtype: self.eventtype)
+    search_params = {neighborhood_id: self.area.id}
+    search_params[:eventtype] = self.eventtype if self.eventtype != "Any Event"
+    if Event.where(search_params) == []
       puts ""
       puts "Sorry #{self.active_user.name}, there are no events matching your criteria, please search again."
       puts ""
       puts ""
       puts ""
-
+      self.area_prompt
     else
-      Event.where(eventtype: self.eventtype, neighborhood_id: self.area.id).select do |evnt|
-        date_now = d.split(':')[0].to_i + (d.split(':')[1].to_i * 1.0)/60 ###########time is hard to add. . .convert to integer
+      Event.where(search_params).select do |evnt|
+        date_now = d.split(':')[0].to_i + (d.split(':')[1].to_i * 1.0)/60 ###########time is annoying to add. . .converted to integer
         date_open = evnt.date_time.strftime("%H:%M").split(':')[0].to_i + (evnt.date_time.strftime("%H:%M").split(':')[1].to_i * 1.0)/60
         date_close = (evnt.duration * 1.0)/60 + date_open
         if (self.eventtype == "Special Event") && ((date_now > date_open) && (date_now < date_close - 0.5) && availabletime < evnt.duration) #make sure you can see 30 min
@@ -284,7 +288,10 @@ end
       puts ""
       self.area_prompt
     else
+      puts ""
+      puts ""
       puts "Please select the event you're interested in to see more details."
+      puts ""
         #940 lecture at the blah
         i = 1
       self.event_list.each do |currevent|
@@ -312,7 +319,11 @@ end
     # event = Event.find_by(name:"Special Exhibition1")
     time = event.date_time
     puts ""
-    puts "#{event.name.upcase} at the #{event.museum.name.upcase}"
+    if event.name.upcase == event.museum.name.upcase
+      puts "#{event.name.upcase}"
+    else
+      puts "#{event.name.upcase} at the #{event.museum.name.upcase}"
+    end
     puts ""
     puts "Date: #{time.strftime('%A')}, #{time.strftime('%B')} #{time.strftime('%d')}, #{time.year}"
     puts "Time: #{time.strftime('%-l:%M %p')}"
