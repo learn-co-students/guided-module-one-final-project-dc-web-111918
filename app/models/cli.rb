@@ -168,7 +168,7 @@ class Cli
         date_now = d.split(':')[0].to_i + (d.split(':')[1].to_i * 1.0)/60 ###########time is hard to add. . .convert to integer
         date_open = evnt.date_time.strftime("%H:%M").split(':')[0].to_i + (evnt.date_time.strftime("%H:%M").split(':')[1].to_i * 1.0)/60
         date_close = (evnt.duration * 1.0)/60 + date_open
-        #binding.pry
+        binding.pry
         if (self.eventtype == "Special Event") && ((date_now > date_open) && (date_now < date_close - 0.5)) #make sure you can see 30 min
             self.event_list << evnt
         elsif (self.eventtype == ("Lecture" || "Concert")) && ((date_now > date_open - 0.5 ) && (date_now < date_close - 0.5)) #make sure you can see the entire thing and have time to get there
