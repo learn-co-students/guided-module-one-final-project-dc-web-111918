@@ -1,11 +1,11 @@
 class Cli
   attr_accessor :area_input, :area, :eventtype_input, :eventtype,
-  :availabletime, :selectedevent,:time, :museum, :events, :event_list, :selectoption, :nextoption, :listevents_prompt
+  :availabletime, :selectedevent,:time, :museum, :events, :event_list, :selectoption, :nextoption
 
   @@all = []
 
+  @@all
   def self.all
-    @@all
   end
 
   def welcome
@@ -155,7 +155,8 @@ class Cli
 
   def events_picker
     self.event_list = []
-    d = DateTime.now
+    d = DateTime.now - (8/24.0)
+    # binding.pry
     #d = d.strftime("%d/%m/%Y %H:%M")  ###implement me when we start using dates and not just times
     d = d.strftime("%H:%M").tr(':','.date')
     if Event.where(eventtype: self.eventtype, neighborhood_id: self.area.id) == []
@@ -174,7 +175,8 @@ class Cli
             self.event_list << evnt
         elsif (self.eventtype == ("Lecture" || "Concert")) && ((date_now > date_open - 0.5 ) && (date_now < date_close - 0.5) && availabletime < evnt.duration) #make sure you can see the entire thing and have time to get there
             self.event_list << evnt
-        else #####need actual museum date open and close rather than event
+        else
+          #binding.pry
           if (date_now > date_open) && (date_now < date_close - 0.5) #eventtype == "Museum"  #just fit in the duration
             self.event_list << evnt
           end
