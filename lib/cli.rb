@@ -57,7 +57,7 @@ def userlogin_selection
 end
 
 ###old user login start
-def userlogin_promp
+def userlogin_prompt
   header
   puts ""
   puts ""
