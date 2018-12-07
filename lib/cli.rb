@@ -78,7 +78,7 @@ class CLI
 end
 
 def create_user(name)
-  User.create(name: name)
+  User.find_or_create_by(name: name)
 end
 
   def quit
