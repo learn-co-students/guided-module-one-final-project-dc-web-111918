@@ -1,3 +1,3 @@
 require_relative '../config/environment'
 
-Cli.new.call
+Cli.new.welcome
