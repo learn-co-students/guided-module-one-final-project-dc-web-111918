@@ -6,7 +6,6 @@ require "spec_helper"
 describe "Cli" do
   let (:checker) {Cli.new}
 
+#test neighborhood
 
-
-  
 end
