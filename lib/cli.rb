@@ -1,5 +1,3 @@
-require 'rainbow'
-require 'artii'
 class Cli
   attr_accessor :area_input, :area, :eventtype_input, :eventtype, :ratings, :users,
   :availabletime, :selectedevent,:time, :museum, :events, :event_list, :selectoption,
@@ -12,13 +10,17 @@ class Cli
   def self.all
   end
 
+  def header
+    artii = Artii::Base.new()
+    puts Rainbow artii.asciify('District Discoverer').bright.cyan
+  end
+
   def welcome
+      puts "\e[H\e[2J"
+      header
       puts ""
       puts ""
-      #artii "DC Neighborhood Events Finder!"
-      a = Artii::Base.new
-      a.asciify('word')
-      puts Rainbow ("DC Neighborhood Events Finder!").bright.underline.blue
+      # puts Rainbow ("DC Neighborhood Events Finder!").bright.underline.blue
       puts ""
       puts ""
       #self.area_prompt
@@ -26,7 +28,6 @@ class Cli
   end
 #####################user stuff new##################
 def userquery_prompt
-  puts ""
   puts "Have you used this system before?"
   puts ""
   puts "1. Yes"
@@ -57,6 +58,8 @@ end
 
 ###old user login start
 def userlogin_prompt
+  puts "\e[H\e[2J"
+  header
   puts ""
   puts ""
   puts "Please enter your username to login."
@@ -84,6 +87,8 @@ end
 
 ###new user creation start
 def createnewuser_prompt
+  puts "\e[H\e[2J"
+  header
   puts ""
   puts ""
   puts "Please enter a username."
@@ -99,6 +104,8 @@ end
 ###new user creation end
 
 def welcome_user
+  puts "\e[H\e[2J"
+  header
   puts ""
   puts ""
   puts "#{self.active_user.name} is now logged in!"
@@ -132,6 +139,8 @@ end
   end
 
   def area_selection
+    puts "\e[H\e[2J"
+    header
     case self.area_input
     when "1"
       puts ""
@@ -185,6 +194,8 @@ end
   end
 
   def eventtype_selection
+    puts "\e[H\e[2J"
+    header
     case self.eventtype_input
     when "1"
       puts "You've selected MUSEUM"
@@ -226,6 +237,8 @@ end
   end
 
   def availabletime_selection
+    puts "\e[H\e[2J"
+    header
     case self.availabletime
     when "1"
       puts "You've selected 30 minutes"
@@ -244,6 +257,8 @@ end
   end
 
   def events_picker
+    puts "\e[H\e[2J"
+    header
     self.event_list = []
     d = DateTime.now # - (8/24.0)
     #d = d.strftime("%d/%m/%Y %H:%M")  ###implement me when we start using dates and not just times
@@ -254,7 +269,6 @@ end
       puts ""
       puts ""
       puts ""
-
     else
       Event.where(eventtype: self.eventtype, neighborhood_id: self.area.id).select do |evnt|
         date_now = d.split(':')[0].to_i + (d.split(':')[1].to_i * 1.0)/60 ###########time is hard to add. . .convert to integer
@@ -265,7 +279,7 @@ end
         elsif (self.eventtype == ("Lecture" || "Concert")) && ((date_now > date_open - 0.5 ) && (date_now < date_close - 0.5) && availabletime < evnt.duration) #make sure you can see the entire thing and have time to get there
             self.event_list << evnt
         else
-          #binding.pry
+          # binding.pry
           if (date_now > date_open) && (date_now < date_close - 0.5) #eventtype == "Museum"  #just fit in the duration
             self.event_list << evnt
           end
@@ -277,6 +291,8 @@ end
 
 
   def listevents_prompt
+    puts "\e[H\e[2J"
+    header
     if self.event_list == [] || self.event_list == nil
       puts ""
       puts "Sorry #{self.active_user.name}, there are no events matching your criteria, please search again."
@@ -290,7 +306,7 @@ end
       self.event_list.each do |currevent|
         puts "#{i}. #{currevent.name} - #{currevent.date_time.strftime("%A, %b %d at %I:%M %p")} - #{currevent.eventtype} at the #{Museum.find_by(id: currevent.museum_id).name}"
         i += 1
-        binding.pry
+        # binding.pry
       end
       self.selectedevent = STDIN.gets.strip
       self.selectedevent_valid?
@@ -309,6 +325,8 @@ end
 
 
   def listevents_selection
+    puts "\e[H\e[2J"
+    header
     event = self.event_list[self.selectedevent.to_i-1]
     # event = Event.find_by(name:"Special Exhibition1")
     time = event.date_time
@@ -346,8 +364,10 @@ end
   end
 
   def quit
+    puts "\e[H\e[2J"
+    header
     puts ""
-    puts "Thank you #{self.active_user.name} for using the DC Event Locator come again!"
+    puts "Thank you #{self.active_user.name} for using the District Discoverer come again!"
     puts ""
   end
 

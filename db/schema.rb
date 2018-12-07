@@ -10,23 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181207023342) do
+ActiveRecord::Schema.define(version: 2018_12_07_023342) do
 
   create_table "events", force: :cascade do |t|
-    t.string   "name"
+    t.string "name"
     t.datetime "date_time"
-    t.string   "eventtype"
-    t.string   "description"
-    t.integer  "duration"
-    t.integer  "museum_id"
-    t.integer  "neighborhood_id"
-    t.integer  "rating_id"
+    t.string "eventtype"
+    t.string "description"
+    t.integer "duration"
+    t.integer "museum_id"
+    t.integer "neighborhood_id"
   end
 
   create_table "museums", force: :cascade do |t|
     t.string "name"
-    t.time   "hoursopen"
-    t.time   "hoursclose"
+    t.time "hoursopen"
+    t.time "hoursclose"
     t.string "neighborhood"
   end
 
@@ -35,9 +34,10 @@ ActiveRecord::Schema.define(version: 20181207023342) do
   end
 
   create_table "reviews", force: :cascade do |t|
-    t.string  "review"
+    t.string "review"
     t.integer "rating"
     t.integer "user_id"
+    t.integer "event_id"
   end
 
   create_table "users", force: :cascade do |t|
