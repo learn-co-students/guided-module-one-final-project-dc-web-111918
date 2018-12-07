@@ -16,7 +16,6 @@ class Cli
   end
 
   def welcome
-      puts "\e[H\e[2J"
       header
       puts ""
       puts ""
@@ -57,8 +56,7 @@ def userlogin_selection
 end
 
 ###old user login start
-def userlogin_prompt
-  puts "\e[H\e[2J"
+def userlogin_promp
   header
   puts ""
   puts ""
@@ -88,8 +86,7 @@ end
 ###old user login end
 
 ###new user creation start
-def createnewuser_prompt
-  puts "\e[H\e[2J"
+def createnewuser_promp
   header
   puts ""
   puts ""
@@ -105,8 +102,7 @@ def createnewuser_valid?
 end
 ###new user creation end
 
-def welcome_user
-  puts "\e[H\e[2J"
+def welcome_use
   header
   puts ""
   puts ""
@@ -141,7 +137,6 @@ end
   end
 
   def area_selection
-    puts "\e[H\e[2J"
     header
     case self.area_input
     when "1"
@@ -197,7 +192,6 @@ end
   end
 
   def eventtype_selection
-    puts "\e[H\e[2J"
     header
     case self.eventtype_input
     when "1"
@@ -243,7 +237,6 @@ end
   end
 
   def availabletime_selection
-    puts "\e[H\e[2J"
     header
     case self.availabletime
     when "1"
@@ -263,7 +256,6 @@ end
   end
 
   def events_picker
-    puts "\e[H\e[2J"
     header
     self.event_list = []
     d = DateTime.now # - (8/24.0)
@@ -302,7 +294,6 @@ end
 
 
   def listevents_prompt
-    puts "\e[H\e[2J"
     header
     if self.event_list == [] || self.event_list == nil
       puts ""
@@ -339,7 +330,6 @@ end
 
 
   def listevents_selection
-    puts "\e[H\e[2J"
     header
     event = self.event_list[self.selectedevent.to_i-1]
     # event = Event.find_by(name:"Special Exhibition1")
@@ -382,7 +372,6 @@ end
   end
 
   def quit
-    puts "\e[H\e[2J"
     header
     puts ""
     puts "Thank you #{self.active_user.name} for using the District Discoverer come again!"
