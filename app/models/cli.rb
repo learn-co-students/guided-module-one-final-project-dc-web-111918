@@ -153,7 +153,8 @@ class Cli
 
   def events_picker
     self.event_list = []
-    d = DateTime.now
+    d = DateTime.now - (8/24.0)
+    # binding.pry
     #d = d.strftime("%d/%m/%Y %H:%M")  ###implement me when we start using dates and not just times
     d = d.strftime("%H:%M").tr(':','.date')
     if Event.where(eventtype: self.eventtype, neighborhood_id: self.area.id) == []
