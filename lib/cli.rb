@@ -86,7 +86,6 @@ end
 # end
 
 def userlogin_valid?
-  #binding.pry ##########################################################
   if User.find_by(name: userlogin_input) != nil
     if User.find_by(name: userlogin_input).name == self.userlogin_input #########put in custom error catch
       self.active_user = User.find_by(name: userlogin_input) ### if you use this method.name it dies if there isn't a match
@@ -105,7 +104,7 @@ end
 ###old user login end
 
 ###new user creation start
-def createnewuser_promp
+def createnewuser_prompt
   header
   puts ""
   puts ""
@@ -121,7 +120,7 @@ def createnewuser_valid?
 end
 ###new user creation end
 
-def welcome_use
+def welcome_user
   header
   puts ""
   puts ""
