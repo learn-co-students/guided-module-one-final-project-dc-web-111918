@@ -19,11 +19,7 @@ class Cli
   def welcome
       header
       puts ""
-      puts ""
-      # puts Rainbow ("DC Neighborhood Events Finder!").bright.underline.blue
-      puts ""
-      puts ""
-      #self.area_prompt
+      #self.area_prompt   ####Bypass user stuff
       self.userquery_prompt
   end
 #####################user stuff new##################
@@ -280,8 +276,6 @@ end
     d = DateTime.now # - (8/24.0)
     #d = d.strftime("%d/%m/%Y %H:%M")  ###implement me when we start using dates and not just times
     d = d.strftime("%H:%M").tr(':','.date')
-    #binding.pry
-    #self.eventtype == "Any Event" ? evnttype = nil : (evnttype = eventtype: self.eventtype)
     search_params = {neighborhood_id: self.area.id}
     search_params[:eventtype] = self.eventtype if self.eventtype != "Any Event"
     if Event.where(search_params) == []
@@ -301,7 +295,6 @@ end
         elsif (self.eventtype == ("Lecture" || "Concert")) && ((date_now > date_open - 0.5 ) && (date_now < date_close - 0.5) && availabletime < evnt.duration) #make sure you can see the entire thing and have time to get there
             self.event_list << evnt
         else
-          # binding.pry
           if (date_now > date_open) && (date_now < date_close - 0.5) #eventtype == "Museum"  #just fit in the duration
             self.event_list << evnt
           end
@@ -325,12 +318,10 @@ end
       puts ""
       puts "Please select the event you're interested in to see more details."
       puts ""
-        #940 lecture at the blah
         i = 1
       self.event_list.each do |currevent|
         puts "#{i}. #{currevent.name} - #{currevent.date_time.strftime("%A, %b %d at %I:%M %p")} - #{currevent.eventtype} at the #{Museum.find_by(id: currevent.museum_id).name}"
         i += 1
-        # binding.pry
       end
       self.selectedevent = STDIN.gets.strip
       self.selectedevent_valid?
@@ -351,7 +342,6 @@ end
   def listevents_selection
     header
     event = self.event_list[self.selectedevent.to_i-1]
-    # event = Event.find_by(name:"Special Exhibition1")
     time = event.date_time
     puts ""
     if event.name.upcase == event.museum.name.upcase
@@ -361,10 +351,16 @@ end
     end
     puts ""
     puts "Date: #{time.strftime('%A')}, #{time.strftime('%B')} #{time.strftime('%d')}, #{time.year}"
+    binding.pry
     puts "Time: #{time.strftime('%-l:%M %p')}"
-    hours = event.duration / 60
-    rest = event.duration % 60
-    puts "Duration: #{hours}:#{rest}"
+    if event.duration > 120
+      hours = event.duration / 60
+      rest = event.duration % 60
+      rest = "00" if rest = 0
+      puts "Duration: #{hours}:#{rest}"
+    else
+      puts "Duration: #{event.duration} minutes"
+    end
     puts "Details: #{event.description}"
     puts ""
     puts ""
