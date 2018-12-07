@@ -105,7 +105,7 @@ end
 ###old user login end
 
 ###new user creation start
-def createnewuser_promp
+def createnewuser_prompt
   header
   puts ""
   puts ""
@@ -121,7 +121,7 @@ def createnewuser_valid?
 end
 ###new user creation end
 
-def welcome_use
+def welcome_user
   header
   puts ""
   puts ""
