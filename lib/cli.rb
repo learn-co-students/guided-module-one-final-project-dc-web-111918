@@ -10,10 +10,17 @@ class Cli
   def self.all
   end
 
+  def header
+    puts "\e[H\e[2J"
+    artii = Artii::Base.new()
+    puts Rainbow artii.asciify('District Discoverer').bright.cyan
+  end
+
   def welcome
+      header
       puts ""
       puts ""
-      puts Rainbow ("DC Neighborhood Events Finder!").bright.underline.blue
+      # puts Rainbow ("DC Neighborhood Events Finder!").bright.underline.blue
       puts ""
       puts ""
       #self.area_prompt
@@ -21,7 +28,6 @@ class Cli
   end
 #####################user stuff new##################
 def userquery_prompt
-  puts ""
   puts "Have you used this system before?"
   puts ""
   puts "1. Yes"
@@ -58,6 +64,7 @@ end
 
 ###old user login start
 def userlogin_prompt
+  header
   puts ""
   puts ""
   puts "Please enter your username to login."
@@ -98,7 +105,8 @@ end
 ###old user login end
 
 ###new user creation start
-def createnewuser_prompt
+def createnewuser_promp
+  header
   puts ""
   puts ""
   puts "Please enter a username."
@@ -113,7 +121,8 @@ def createnewuser_valid?
 end
 ###new user creation end
 
-def welcome_user
+def welcome_use
+  header
   puts ""
   puts ""
   puts "Welcome #{self.active_user.name}, you are now logged in!"
@@ -147,6 +156,7 @@ end
   end
 
   def area_selection
+    header
     self.area_input = remove_nonnumerical_char(self.area_input)
     case self.area_input
     when "1"
@@ -202,6 +212,7 @@ end
   end
 
   def eventtype_selection
+    header
     case self.eventtype_input
     when "1"
       puts "You've selected MUSEUM"
@@ -246,6 +257,7 @@ end
   end
 
   def availabletime_selection
+    header
     case self.availabletime
     when "1"
       puts "You've selected 30 minutes"
@@ -264,6 +276,7 @@ end
   end
 
   def events_picker
+    header
     self.event_list = []
     d = DateTime.now # - (8/24.0)
     #d = d.strftime("%d/%m/%Y %H:%M")  ###implement me when we start using dates and not just times
@@ -289,7 +302,7 @@ end
         elsif (self.eventtype == ("Lecture" || "Concert")) && ((date_now > date_open - 0.5 ) && (date_now < date_close - 0.5) && availabletime < evnt.duration) #make sure you can see the entire thing and have time to get there
             self.event_list << evnt
         else
-          #binding.pry
+          # binding.pry
           if (date_now > date_open) && (date_now < date_close - 0.5) #eventtype == "Museum"  #just fit in the duration
             self.event_list << evnt
           end
@@ -301,6 +314,7 @@ end
 
 
   def listevents_prompt
+    header
     if self.event_list == [] || self.event_list == nil
       puts ""
       puts "Sorry #{self.active_user.name}, there are no events matching your criteria, please search again."
@@ -315,8 +329,9 @@ end
         #940 lecture at the blah
         i = 1
       self.event_list.each do |currevent|
-        puts "#{i}. #{ currevent.name} - #{currevent.date_time.strftime("%A, %b %d at %I:%M %p")} - #{currevent.eventtype} at the #{Museum.find_by(id: currevent.museum_id).name}"
+        puts "#{i}. #{currevent.name} - #{currevent.date_time.strftime("%A, %b %d at %I:%M %p")} - #{currevent.eventtype} at the #{Museum.find_by(id: currevent.museum_id).name}"
         i += 1
+        # binding.pry
       end
       self.selectedevent = STDIN.gets.strip
       self.selectedevent_valid?
@@ -335,6 +350,7 @@ end
 
 
   def listevents_selection
+    header
     event = self.event_list[self.selectedevent.to_i-1]
     # event = Event.find_by(name:"Special Exhibition1")
     time = event.date_time
@@ -376,8 +392,9 @@ end
   end
 
   def quit
+    header
     puts ""
-    puts "Thank you #{self.active_user.name} for using Disctrict Discover come again!"
+    puts "Thank you #{self.active_user.name} for using the District Discoverer come again!"
     puts ""
   end
 

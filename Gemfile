@@ -7,3 +7,4 @@ gem "pry"
 gem "require_all"
 gem 'artii'
 gem 'rainbow'
+gem 'rspec'
