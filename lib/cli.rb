@@ -61,7 +61,7 @@ class CLI
       puts available_movies[0].title
       response = STDIN.gets.strip.downcase
         quit if response.downcase == 'quit'
-      if available_movies.length == 2
+      if available_movies.length == 2 && response == "no"
         puts "Ok! One last movie suggestion! Please say yes!"
       end
     end # Ends the UNTIL loop
