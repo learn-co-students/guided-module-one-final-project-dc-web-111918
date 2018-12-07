@@ -1,16 +1,4 @@
-<<<<<<< HEAD
-# require_relative "../../app/models/cli.rb"
-# require_relative "../../config/environment.rb"
-# require "spec_helper"
-#
-#
-# describe "Cli" do
-#   let (:checker) {Cli.new}
-#
-# #test neighborhood
-#
-# end
-=======
+
 require_relative "../../app/models/cli.rb"
 require_relative "../../config/environment.rb"
 require "spec_helper"
@@ -35,4 +23,3 @@ describe "CliChecker" do
   end
 
 end
->>>>>>> 6ca4fec40d4c071431255383dc4b02f8ec222beb

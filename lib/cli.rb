@@ -1,6 +1,10 @@
+require 'rainbow'
+require 'artii'
 class Cli
-  attr_accessor :area_input, :area, :eventtype_input, :eventtype,
-  :availabletime, :selectedevent,:time, :museum, :events, :event_list, :selectoption, :nextoption
+  attr_accessor :area_input, :area, :eventtype_input, :eventtype, :ratings, :users,
+  :availabletime, :selectedevent,:time, :museum, :events, :event_list, :selectoption,
+  :nextoption, :userqueryprompt_input, :users, :ratings, :createnewuser_input,
+  :userlogin_input, :active_user, :createnewuser_input
 
   @@all = []
 
@@ -11,12 +15,98 @@ class Cli
   def welcome
       puts ""
       puts ""
-      puts "Welcome to the DC Neighborhood Events Finder!"
+      #artii "DC Neighborhood Events Finder!"
+      a = Artii::Base.new
+      a.asciify('word')
+      puts Rainbow ("DC Neighborhood Events Finder!").bright.underline.blue
       puts ""
       puts ""
-      self.area_prompt
+      #self.area_prompt
+      self.userquery_prompt
   end
+#####################user stuff new##################
+def userquery_prompt
+  puts ""
+  puts "Have you used this system before?"
+  puts ""
+  puts "1. Yes"
+  puts "2. No"
+  #puts "3. Exit"
+  puts ""
+  puts ""
+    self.userqueryprompt_input = STDIN.gets.strip.downcase
+    self.userquery_valid?
+end
 
+def userquery_valid?
+  if self.userqueryprompt_input.to_i.between?(1,2)
+    self.userlogin_selection
+  else puts "Invalid selection."
+    self.userquery_prompt
+  end
+end
+
+def userlogin_selection
+  case self.userqueryprompt_input
+  when "1"
+    self.userlogin_prompt
+  when "2"
+    self.createnewuser_prompt
+  end
+end
+
+###old user login start
+def userlogin_prompt
+  puts ""
+  puts ""
+  puts "Please enter your username to login."
+  puts ""
+    self.userlogin_input = STDIN.gets.strip
+    self.userlogin_valid?
+end
+
+def userlogin_valid?
+  if User.find_by(name: userlogin_input)
+    if User.find_by(name: userlogin_input).name == self.userlogin_input #########put in custom error catch
+      self.active_user = User.find_by(name: userlogin_input) ### if you use this method.name it dies if there isn't a match
+      self.welcome_user
+    end
+  else
+    puts ""
+    puts ""
+    puts "I'm sorry that's not a valid username."
+    puts "I'll let you try again."
+    puts ""
+    self.userquery_prompt
+  end
+end
+###old user login end
+
+###new user creation start
+def createnewuser_prompt
+  puts ""
+  puts ""
+  puts "Please enter a username."
+  puts ""
+    self.createnewuser_input = STDIN.gets.strip
+    self.createnewuser_valid?
+end
+
+def createnewuser_valid?
+  self.active_user = User.find_or_create_by(name: self.createnewuser_input) ###need a catch
+  self.welcome_user
+end
+###new user creation end
+
+def welcome_user
+  puts ""
+  puts ""
+  puts "#{self.active_user.name} is now logged in!"
+  puts ""
+  self.area_prompt
+end
+
+#################user stuff END NEW
   def area_prompt
     puts ""
     puts "Please choose an area from the following option for event listings:"
@@ -155,17 +245,16 @@ class Cli
 
   def events_picker
     self.event_list = []
-    d = DateTime.now - (8/24.0)
-    # binding.pry
+    d = DateTime.now # - (8/24.0)
     #d = d.strftime("%d/%m/%Y %H:%M")  ###implement me when we start using dates and not just times
     d = d.strftime("%H:%M").tr(':','.date')
     if Event.where(eventtype: self.eventtype, neighborhood_id: self.area.id) == []
       puts ""
-      puts "Sorry, there are no events matching your criteria, please search again."
+      puts "Sorry #{self.active_user.name}, there are no events matching your criteria, please search again."
       puts ""
       puts ""
       puts ""
-      Cli.new.call
+
     else
       Event.where(eventtype: self.eventtype, neighborhood_id: self.area.id).select do |evnt|
         date_now = d.split(':')[0].to_i + (d.split(':')[1].to_i * 1.0)/60 ###########time is hard to add. . .convert to integer
@@ -190,10 +279,10 @@ class Cli
   def listevents_prompt
     if self.event_list == [] || self.event_list == nil
       puts ""
-      puts "Sorry, there are no events matching your criteria, please search again."
+      puts "Sorry #{self.active_user.name}, there are no events matching your criteria, please search again."
       puts ""
       puts ""
-      Cli.new.call
+      self.area_prompt
     else
       puts "Please select the event you're interested in to see more details."
         #940 lecture at the blah
@@ -257,12 +346,8 @@ class Cli
 
   def quit
     puts ""
-    puts "Thank you for using the DC Event Locator come again!"
+    puts "Thank you #{self.active_user.name} for using the DC Event Locator come again!"
     puts ""
-  end
-
-  def call
-    self.welcome
   end
 
 end

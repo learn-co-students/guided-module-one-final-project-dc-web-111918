@@ -2,6 +2,19 @@ Museum.destroy_all
 Neighborhood.destroy_all
 Event.destroy_all
 
+##users
+user1 = User.find_or_create_by(name: "Beau")
+user2 = User.find_or_create_by(name: "JC")
+
+##reviews
+
+# review1 = Review.find_or_create_by(review: "It was way awesome", rating: 5, user: user1)
+# review2 = Review.find_or_create_by(review: "It was awesome", rating: 4, user: user2)
+# review3 = Review.find_or_create_by(review: "It was ", rating: 3, user: user1)
+# review4 = Review.find_or_create_by(review: "It was lame", rating: 2, user: user2)
+# review5 = Review.find_or_create_by(review: "It was way lame", rating: 1, user: user1)
+
+
 
 ##neighborhoods
 mallnorth = Neighborhood.find_or_create_by(name: "Mall North")
@@ -9,6 +22,7 @@ mallsouth = Neighborhood.find_or_create_by(name: "Mall South")
 capitolhill = Neighborhood.find_or_create_by(name: "Capitol Hill")
 chinatown = Neighborhood.find_or_create_by(name: "Chinatown")
 foggybottom = Neighborhood.find_or_create_by(name: "Foggy Bottom")
+
 
 ##museums
 airandspacemuseum = Museum.find_or_create_by(name: "Smithsonian Air and Space Museum", neighborhood: mallsouth, hoursopen: "10:00", hoursclose: "17:30")
