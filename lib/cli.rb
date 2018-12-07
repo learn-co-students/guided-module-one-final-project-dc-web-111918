@@ -27,7 +27,12 @@ class CLI
       quit if free_time.downcase == 'quit'
     movie = choose_movie(free_time)
     create_watched_movie(current_user, movie)
-
+    puts "Would you like to view your watched history?"
+    recall_movies = STDIN.gets.strip
+    quit if recall_movies.downcase == "no"
+    current_user.retrieve if recall_movies.downcase == "yes"
+    # binding.pry
+    quit
   end #start end
 
   def search_for_movie(free_time)
@@ -69,7 +74,6 @@ class CLI
   end
 
   def create_watched_movie(name, movie)
-
   Watchedmovies.find_or_create_by(user: name, movie: movie)
 end
 
