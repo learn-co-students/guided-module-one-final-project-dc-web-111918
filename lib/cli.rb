@@ -11,6 +11,7 @@ class Cli
   end
 
   def header
+    puts "\e[H\e[2J"
     artii = Artii::Base.new()
     puts Rainbow artii.asciify('District Discoverer').bright.cyan
   end
