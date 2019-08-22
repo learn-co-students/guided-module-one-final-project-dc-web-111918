@@ -2,7 +2,7 @@
 
 Welcome to the District Discoverer!
 
-Have you ever been wandering around DC and wondered what there was to do in your area? While we can use Yelp to find restaurants, there's nothing like this for DC events so we decided to take a stab!
+Have you ever wandered around DC and wondered what there was to do in your area? While we can use Yelp to find restaurants, there's nothing like this for DC events so we decided to take a stab!
 
 How to install: Fork and clone the repository. Navigate to the root directory of the repository. Type in "rake db:migrate" and press "enter". Type in "rake db:seed" press "enter".
 
